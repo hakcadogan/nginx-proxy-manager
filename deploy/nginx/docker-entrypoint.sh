@@ -135,9 +135,40 @@ else
   cp /etc/nginx/nginx.conf /var/lib/nsp/last-good/nginx.conf
 fi
 
+# Harden /healthz in whatever conf we boot with (last-good may predate this fix).
+# Without this, Host: 127.0.0.1 healthchecks hit CRS 920350 → 403 → unhealthy.
+if grep -q 'location = /healthz' /etc/nginx/nginx.conf 2>/dev/null; then
+  awk '
+    /location = \/healthz/ { inhz=1; print; next }
+    inhz && /modsecurity off/ { has=1 }
+    inhz && /access_log off/ && !has {
+      print "            modsecurity off;"
+      has=1
+    }
+    inhz && /^        }/ { inhz=0; has=0 }
+    { print }
+  ' /etc/nginx/nginx.conf > /tmp/nginx.healthz.conf \
+    && mv /tmp/nginx.healthz.conf /etc/nginx/nginx.conf
+fi
+
 export LD_LIBRARY_PATH="/usr/local/modsecurity/lib:${LD_LIBRARY_PATH:-}"
 
-# If last-good fails nginx -t (e.g. stale host files), fall back to baseline + empty hosts.
+# If last-good fails nginx -t (e.g. missing _default cert / stale hosts), retry once
+# after ensuring snakeoil, then fall back to baseline + empty hosts.
+if ! nginx -t -c /etc/nginx/nginx.conf >/tmp/nginx-t.out 2>&1; then
+  echo "nsp: nginx -t failed; ensuring _default cert and retrying" >&2
+  cat /tmp/nginx-t.out >&2 || true
+  mkdir -p /var/lib/nsp/certs/_default
+  if [ ! -f /var/lib/nsp/certs/_default/fullchain.pem ] && command -v openssl >/dev/null 2>&1; then
+    openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
+      -keyout /var/lib/nsp/certs/_default/privkey.pem \
+      -out /var/lib/nsp/certs/_default/fullchain.pem \
+      -subj "/CN=nsp-default" >/dev/null 2>&1 || true
+    chmod 0644 /var/lib/nsp/certs/_default/fullchain.pem 2>/dev/null || true
+    chmod 0600 /var/lib/nsp/certs/_default/privkey.pem 2>/dev/null || true
+  fi
+fi
+
 if ! nginx -t -c /etc/nginx/nginx.conf >/tmp/nginx-t.out 2>&1; then
   echo "nsp: last-good nginx -t failed; using baseline + placeholder hosts" >&2
   cat /tmp/nginx-t.out >&2 || true
