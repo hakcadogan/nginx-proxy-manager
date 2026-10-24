@@ -13,6 +13,9 @@ func TestParseAuditLine_HostHeaderCase(t *testing.T) {
 	if ev.Domain != "behice.local" {
 		t.Fatalf("domain=%q want behice.local (strip port, Host capital H)", ev.Domain)
 	}
+	if ev.ClientIP != "1.2.3.4" {
+		t.Fatalf("client_ip=%q want full IPv4 (not JWT-masked)", ev.ClientIP)
+	}
 	if ev.RuleID != "942100" {
 		t.Fatalf("rule=%q", ev.RuleID)
 	}

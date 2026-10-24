@@ -10,6 +10,8 @@ var (
 	bearer     = regexp.MustCompile(`(?i)(bearer\s+)[a-z0-9._\-+=/]+`)
 	basicAuth  = regexp.MustCompile(`(?i)(basic\s+)[a-z0-9+/=]+`)
 	creditCard = regexp.MustCompile(`\b(?:\d[ -]*?){13,19}\b`)
+	// JWT-like: require a letter in the first segment so dotted IPv4 (1.2.3.4) is not redacted.
+	jwtLike = regexp.MustCompile(`\b[A-Za-z0-9_-]*[A-Za-z][A-Za-z0-9_-]*\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b`)
 )
 
 // Mask redacts secrets from WAF event payloads (REQ-WAF-010).
@@ -21,8 +23,7 @@ func Mask(s string) string {
 	out = bearer.ReplaceAllString(out, "${1}***")
 	out = basicAuth.ReplaceAllString(out, "${1}***")
 	out = creditCard.ReplaceAllString(out, "***")
-	// JWT-like leftovers after Authorization=***
-	out = regexp.MustCompile(`\b[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b`).ReplaceAllString(out, "***")
+	out = jwtLike.ReplaceAllString(out, "***")
 	// Truncate oversized payloads
 	if len(out) > 512 {
 		out = out[:512] + "…"
@@ -36,6 +37,10 @@ func MaskMap(m map[string]any) {
 		switch t := v.(type) {
 		case string:
 			lk := strings.ToLower(k)
+			// Preserve network identity fields used in IDS/WAF timeline (REQ-IDS-013).
+			if lk == "client_ip" || lk == "remote_addr" || lk == "ip" {
+				continue
+			}
 			if strings.Contains(lk, "password") || strings.Contains(lk, "secret") || strings.Contains(lk, "token") || strings.Contains(lk, "authorization") {
 				m[k] = "***"
 			} else {

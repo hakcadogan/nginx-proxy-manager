@@ -91,8 +91,11 @@ func parseAuditLine(line string) (models.SecurityEvent, bool) {
 	}
 
 	ev := models.SecurityEvent{Source: "waf"}
-	// Host/domain before MaskMap — "a.b.c" domains match the JWT redaction pattern.
+	// Host/domain + client_ip before MaskMap — dotted values can match JWT-like redaction.
 	if tx, ok := raw["transaction"].(map[string]any); ok {
+		if v, ok := tx["client_ip"].(string); ok {
+			ev.ClientIP = v
+		}
 		if req, ok := tx["request"].(map[string]any); ok {
 			if headers, ok := req["headers"].(map[string]any); ok {
 				ev.Domain = normalizeEventHost(headerString(headers, "Host", "host"))
@@ -103,8 +106,10 @@ func parseAuditLine(line string) (models.SecurityEvent, bool) {
 	wafmask.MaskMap(raw)
 
 	if tx, ok := raw["transaction"].(map[string]any); ok {
-		if v, ok := tx["client_ip"].(string); ok {
-			ev.ClientIP = v
+		if ev.ClientIP == "" {
+			if v, ok := tx["client_ip"].(string); ok {
+				ev.ClientIP = v
+			}
 		}
 		if v, ok := tx["unique_id"].(string); ok {
 			ev.UniqueID = v
