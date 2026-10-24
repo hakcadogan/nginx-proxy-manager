@@ -116,6 +116,7 @@ export default function IDSPage() {
   const [protectedCIDRs, setProtectedCIDRs] = useState("127.0.0.1,::1");
   const [detection, setDetection] = useState<DetectionSettings>(emptyDetection);
   const [agentOK, setAgentOK] = useState(false);
+  const [agentError, setAgentError] = useState("");
   const [error, setError] = useState("");
   const [ok, setOk] = useState("");
   const [form, setForm] = useState({ ip: "", reason: "", kind: "ban" as PolicyKind, ttl_hours: 24 });
@@ -206,9 +207,11 @@ export default function IDSPage() {
     const data = await api<{
       settings: DetectionSettings;
       agent_ok: boolean;
+      agent_error?: string;
     }>("/api/v1/ids/detection");
     if (data.settings) setDetection({ ...emptyDetection(), ...data.settings });
     setAgentOK(!!data.agent_ok);
+    setAgentError(data.agent_error || "");
   }
 
   useEffect(() => {
@@ -811,6 +814,11 @@ export default function IDSPage() {
           <p className="muted">{t("idsDetectionHint")}</p>
           <p className={agentOK ? "ok" : "error"} style={{ margin: 0 }}>
             {agentOK ? t("idsAgentOk") : t("idsAgentDown")}
+            {!agentOK && agentError ? (
+              <span className="muted" style={{ display: "block", fontSize: 12, marginTop: 4 }}>
+                {agentError}
+              </span>
+            ) : null}
           </p>
           <form className="stack" onSubmit={(e) => void saveDetection(e)}>
             <fieldset className="stack" style={{ border: "1px solid var(--border, #333)", padding: 12 }}>

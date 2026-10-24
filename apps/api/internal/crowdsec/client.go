@@ -124,19 +124,32 @@ func (c *Client) ApplyDetection(ctx context.Context, files map[string]string) er
 
 // AgentPing checks the local agent health endpoint.
 func (c *Client) AgentPing(ctx context.Context) bool {
+	ok, _ := c.AgentPingDetail(ctx)
+	return ok
+}
+
+// AgentPingDetail returns reachability and a short reason when down (for UI/ops).
+func (c *Client) AgentPingDetail(ctx context.Context) (bool, string) {
 	if c == nil || c.AgentURL == "" {
-		return false
+		return false, "CROWDSEC_AGENT_URL not configured"
+	}
+	if c.AgentToken == "" {
+		return false, "CROWDSEC_AGENT_TOKEN not configured"
 	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.TrimRight(c.AgentURL, "/")+"/health", nil)
 	if err != nil {
-		return false
+		return false, err.Error()
 	}
-	res, err := c.httpClient().Do(req)
+	hc := &http.Client{Timeout: 3 * time.Second}
+	res, err := hc.Do(req)
 	if err != nil {
-		return false
+		return false, err.Error()
 	}
 	defer res.Body.Close()
-	return res.StatusCode == 200
+	if res.StatusCode != 200 {
+		return false, fmt.Sprintf("health status %d", res.StatusCode)
+	}
+	return true, ""
 }
 
 func truncate(s string, n int) string {

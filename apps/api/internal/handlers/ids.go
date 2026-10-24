@@ -445,8 +445,12 @@ func (h *IDSHandler) loadDetection(r *http.Request) crowdsec.DetectionSettings {
 
 func (h *IDSHandler) GetDetection(w http.ResponseWriter, r *http.Request) {
 	s := h.loadDetection(r)
-	agentOK := h.CS != nil && h.CS.AgentPing(r.Context())
-	WriteJSON(w, http.StatusOK, map[string]any{
+	agentOK := false
+	agentErr := "crowdsec client not configured"
+	if h.CS != nil {
+		agentOK, agentErr = h.CS.AgentPingDetail(r.Context())
+	}
+	out := map[string]any{
 		"settings": s,
 		"agent_ok": agentOK,
 		"hints": map[string]string{
@@ -455,7 +459,11 @@ func (h *IDSHandler) GetDetection(w http.ResponseWriter, r *http.Request) {
 			"http_bf_capacity":      "Auth brute-force eşiği (http-generic-bf)",
 			"ban_duration":          "CrowdSec karar süresi (profiles.yaml)",
 		},
-	})
+	}
+	if !agentOK && agentErr != "" {
+		out["agent_error"] = agentErr
+	}
+	WriteJSON(w, http.StatusOK, out)
 }
 
 func (h *IDSHandler) PutDetection(w http.ResponseWriter, r *http.Request) {
