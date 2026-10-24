@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/nginx-proxy-waf/api/internal/db"
@@ -274,9 +275,14 @@ func (h *WAFHandler) AttackReport(w http.ResponseWriter, r *http.Request) {
 	for _, row := range rows {
 		cat := nginxcfg.ClassifyCRSAttackType(row.RuleID)
 		byType[cat] += row.Count
-		top = append(top, map[string]any{
+		item := map[string]any{
 			"rule_id": row.RuleID, "count": row.Count, "attack_type": cat,
-		})
+			"last_client_ip": row.LastClientIP,
+		}
+		if !row.LastSeen.IsZero() {
+			item["last_seen"] = row.LastSeen.UTC().Format(time.RFC3339)
+		}
+		top = append(top, item)
 	}
 	WriteJSON(w, http.StatusOK, map[string]any{
 		"by_attack_type": byType,

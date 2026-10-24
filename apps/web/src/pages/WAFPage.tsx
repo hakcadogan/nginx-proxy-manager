@@ -41,7 +41,13 @@ type Host = { id: string; primary_domain: string; waf_enabled?: boolean };
 
 type Report = {
   by_attack_type: Record<string, number>;
-  top_rules: { rule_id: string; count: number; attack_type: string }[];
+  top_rules: {
+    rule_id: string;
+    count: number;
+    attack_type: string;
+    last_client_ip?: string;
+    last_seen?: string;
+  }[];
   crs_version?: string;
   note?: string;
 };
@@ -101,6 +107,7 @@ export default function WAFPage() {
   const [eventQ, setEventQ] = useState("");
   const [eventRule, setEventRule] = useState("");
   const [eventDomain, setEventDomain] = useState("");
+  const [eventsRefreshing, setEventsRefreshing] = useState(false);
   const [inboundThr, setInboundThr] = useState(5);
   const [uaText, setUaText] = useState("");
   const [uaPresets, setUaPresets] = useState<string[]>([]);
@@ -421,6 +428,7 @@ export default function WAFPage() {
   async function searchEvents(e?: FormEvent) {
     e?.preventDefault();
     setError("");
+    setEventsRefreshing(true);
     try {
       const params = new URLSearchParams({ per_page: "40", source: "waf" });
       if (eventQ.trim()) params.set("q", eventQ.trim());
@@ -432,7 +440,16 @@ export default function WAFPage() {
       setReport(rep);
     } catch (err) {
       setError(err instanceof Error ? err.message : "error");
+    } finally {
+      setEventsRefreshing(false);
     }
+  }
+
+  function formatEventTime(iso?: string) {
+    if (!iso) return "—";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleString();
   }
 
   async function toggleRule(rule: CRSRule, enabled: boolean) {
@@ -1050,6 +1067,8 @@ export default function WAFPage() {
                       <th>Rule</th>
                       <th>{t("type")}</th>
                       <th>#</th>
+                      <th>{t("lastClientIp")}</th>
+                      <th>{t("lastSeen")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1060,6 +1079,16 @@ export default function WAFPage() {
                         </td>
                         <td>{r.attack_type}</td>
                         <td>{r.count}</td>
+                        <td>
+                          {r.last_client_ip ? (
+                            <code>{r.last_client_ip}</code>
+                          ) : (
+                            <span className="muted">—</span>
+                          )}
+                        </td>
+                        <td className="muted" style={{ whiteSpace: "nowrap" }}>
+                          {formatEventTime(r.last_seen)}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -1068,20 +1097,47 @@ export default function WAFPage() {
             </div>
           )}
 
-          {events.length === 0 ? (
-            <p className="muted">{t("noEvents")}</p>
-          ) : (
-            <table className="table">
-              <thead>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Rule</th>
+                <th>{t("domain")}</th>
+                <th>URI</th>
+                <th>{t("actions")}</th>
+                <th style={{ width: 44, textAlign: "right" }}>
+                  <button
+                    type="button"
+                    className={`icon-btn secondary${eventsRefreshing ? " is-spinning" : ""}`}
+                    title={t("refreshEvents")}
+                    aria-label={t("refreshEvents")}
+                    disabled={eventsRefreshing}
+                    onClick={() => void searchEvents()}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+                      <path d="M21 3v6h-6" />
+                    </svg>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.length === 0 ? (
                 <tr>
-                  <th>Rule</th>
-                  <th>{t("domain")}</th>
-                  <th>URI</th>
-                  <th>{t("actions")}</th>
+                  <td colSpan={5} className="muted">
+                    {t("noEvents")}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {events.map((ev) => (
+              ) : (
+                events.map((ev) => (
                   <tr key={ev.id}>
                     <td>
                       <code>{ev.rule_id}</code>
@@ -1102,11 +1158,12 @@ export default function WAFPage() {
                         {t("tune")}
                       </button>
                     </td>
+                    <td />
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </section>
       )}
     </div>

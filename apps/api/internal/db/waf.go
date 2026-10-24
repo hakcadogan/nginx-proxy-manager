@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
@@ -237,8 +238,10 @@ func (s *Store) SearchSecurityEvents(ctx context.Context, f SecurityEventFilter)
 }
 
 type RuleEventCount struct {
-	RuleID string
-	Count  int
+	RuleID       string
+	Count        int
+	LastClientIP string
+	LastSeen     time.Time
 }
 
 func (s *Store) AggregateSecurityEventsByRule(ctx context.Context, source string, limit int) ([]RuleEventCount, error) {
@@ -248,8 +251,12 @@ func (s *Store) AggregateSecurityEventsByRule(ctx context.Context, source string
 	if source == "" {
 		source = "waf"
 	}
+	// Last IP/time = most recent event for that rule (REQ-WAF-014).
 	rows, err := s.Pool.Query(ctx, `
-		SELECT rule_id, COUNT(*)::int AS c
+		SELECT rule_id,
+		       COUNT(*)::int AS c,
+		       COALESCE((ARRAY_AGG(client_ip ORDER BY created_at DESC))[1], '') AS last_ip,
+		       MAX(created_at) AS last_seen
 		FROM security_events WHERE source=$1 AND rule_id <> ''
 		GROUP BY rule_id ORDER BY c DESC LIMIT $2`, source, limit)
 	if err != nil {
@@ -259,7 +266,7 @@ func (s *Store) AggregateSecurityEventsByRule(ctx context.Context, source string
 	var out []RuleEventCount
 	for rows.Next() {
 		var r RuleEventCount
-		if err := rows.Scan(&r.RuleID, &r.Count); err != nil {
+		if err := rows.Scan(&r.RuleID, &r.Count, &r.LastClientIP, &r.LastSeen); err != nil {
 			return nil, err
 		}
 		out = append(out, r)
