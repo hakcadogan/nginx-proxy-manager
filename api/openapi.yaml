@@ -1,0 +1,603 @@
+openapi: 3.0.3
+info:
+  title: Nginx Security Platform API
+  version: 0.1.0-mvp
+  description: Control-plane REST API (REQ-API-002). Phase 01 MVP.
+servers:
+  - url: /api/v1
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: health
+      responses:
+        "200":
+          description: OK
+  /version:
+    get:
+      summary: API version
+      operationId: version
+      responses:
+        "200":
+          description: OK
+  /auth/bootstrap/status:
+    get:
+      summary: Whether bootstrap is required
+      operationId: bootstrapStatus
+      responses:
+        "200":
+          description: OK
+  /auth/bootstrap:
+    post:
+      summary: Create first admin (REQ-AUTH-005)
+      operationId: bootstrap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, email, password]
+              properties:
+                token: { type: string }
+                email: { type: string, format: email }
+                password: { type: string, minLength: 12 }
+      responses:
+        "201": { description: Created }
+        "403": { description: Forbidden }
+  /auth/login:
+    post:
+      summary: Login (REQ-API-009)
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        "200": { description: OK }
+        "401": { description: Unauthorized }
+  /auth/logout:
+    post:
+      summary: Logout
+      operationId: logout
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /auth/me:
+    get:
+      summary: Current user
+      operationId: me
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /hosts:
+    get:
+      summary: List proxy hosts (REQ-API-003)
+      operationId: listHosts
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - in: query
+          name: q
+          schema: { type: string }
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Create proxy host
+      operationId: createHost
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /hosts/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+    get:
+      operationId: getHost
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    patch:
+      operationId: updateHost
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    delete:
+      operationId: deleteHost
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /hosts/{id}/enable:
+    post:
+      operationId: enableHost
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200": { description: OK }
+  /hosts/{id}/disable:
+    post:
+      operationId: disableHost
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200": { description: OK }
+  /config/validate:
+    post:
+      summary: Dry-run nginx -t (REQ-CFG-009)
+      operationId: configValidate
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+        "422": { description: Invalid }
+  /config/apply:
+    post:
+      summary: Validate, publish, reload (REQ-API-004)
+      operationId: configApply
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+        "409": { description: Reload failed / rolled back }
+  /config/rollback:
+    post:
+      operationId: configRollback
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /config/status:
+    get:
+      operationId: configStatus
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /config/versions:
+    get:
+      operationId: configVersions
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /config/versions/{id}:
+    get:
+      operationId: getConfigVersion
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200": { description: OK }
+  /rate-limits:
+    get:
+      operationId: listRateLimits
+      summary: List rate limit profiles (REQ-RATE-009)
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      operationId: createRateLimit
+      summary: Create rate limit profile
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /rate-limits/{id}:
+    patch:
+      operationId: updateRateLimit
+      summary: Update rate limit profile
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+    delete:
+      operationId: deleteRateLimit
+      summary: Delete rate limit profile
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Deleted }
+  /audit-logs:
+    get:
+      operationId: listAuditLogs
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /certificates:
+    get:
+      summary: List certificates (REQ-API-005, REQ-SSL-018 unused query)
+      operationId: listCertificates
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: unused
+          in: query
+          schema: { type: boolean }
+      responses:
+        "200": { description: OK }
+  /certificates/ops:
+    get:
+      summary: ACME operation history (REQ-SSL-017)
+      operationId: listCertificateOps
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /certificates/upload:
+    post:
+      summary: Upload PEM certificate
+      operationId: uploadCertificate
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /certificates/self-signed:
+    post:
+      summary: Generate self-signed certificate
+      operationId: selfSignedCertificate
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /certificates/private-ca:
+    post:
+      summary: Sign with private CA (REQ-SSL-003)
+      operationId: privateCACertificate
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /certificates/acme/issue:
+    post:
+      summary: Issue ACME certificate
+      operationId: acmeIssue
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+        "400": { description: Validation }
+  /certificates/{id}/rollback:
+    post:
+      summary: Roll back to previous cert revision (REQ-SSL-016)
+      operationId: rollbackCertificate
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+  /upstreams:
+    get:
+      summary: List upstream pools (REQ-API-006)
+      operationId: listUpstreams
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Create upstream pool (REQ-LB-001)
+      operationId: createUpstream
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+        "400": { description: Validation }
+  /upstreams/{id}:
+    get:
+      summary: Get upstream pool
+      operationId: getUpstream
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+        "404": { description: Not found }
+    patch:
+      summary: Update upstream pool
+      operationId: updateUpstream
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+    delete:
+      summary: Delete upstream pool
+      operationId: deleteUpstream
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Deleted }
+  /upstreams/{id}/members:
+    post:
+      summary: Add pool member
+      operationId: addUpstreamMember
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "201": { description: Created }
+        "400": { description: Validation }
+  /upstreams/{id}/members/{mid}:
+    patch:
+      summary: Update member (drain/backup/down) — REQ-LB-011
+      operationId: updateUpstreamMember
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - name: mid
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+    delete:
+      summary: Remove member
+      operationId: deleteUpstreamMember
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - name: mid
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Deleted }
+  /upstreams/{id}/health:
+    get:
+      summary: Member health status (REQ-LB-007/008)
+      operationId: getUpstreamHealth
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+  /waf/policies:
+    get:
+      summary: List WAF policies (REQ-API-007)
+      operationId: listWafPolicies
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /waf/policies/{id}:
+    get:
+      summary: Get WAF policy
+      operationId: getWafPolicy
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+    patch:
+      summary: Update engine mode / paranoia (REQ-WAF-003..006)
+      operationId: patchWafPolicy
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+  /waf/exceptions:
+    get:
+      summary: List exceptions (REQ-WAF-007)
+      operationId: listWafExceptions
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Create exception
+      operationId: createWafException
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /waf/exceptions/{id}:
+    delete:
+      summary: Delete exception
+      operationId: deleteWafException
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Deleted }
+  /waf/events:
+    get:
+      summary: List security events (REQ-WAF-009)
+      operationId: listWafEvents
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /waf/events/{id}:
+    get:
+      summary: Event detail masked (REQ-WAF-010)
+      operationId: getWafEvent
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: OK }
+  /waf/events/{id}/suggest-exception:
+    get:
+      summary: Tuning suggestion from event (REQ-WAF-011)
+      operationId: suggestWafException
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: OK }
+  /ids/decisions:
+    get:
+      summary: List IP decisions (REQ-IDS-009)
+      operationId: listIdsDecisions
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /ids/bans:
+    post:
+      summary: Manual IP ban (REQ-IDS-005)
+      operationId: createIdsBan
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /ids/bans/{id}:
+    delete:
+      summary: Unban (REQ-IDS-008)
+      operationId: deleteIdsBan
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Deleted }
+  /ids/allowlist:
+    get:
+      summary: List allowlist (REQ-IDS-006)
+      operationId: listIdsAllow
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Add allowlist entry
+      operationId: createIdsAllow
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /ids/denylist:
+    get:
+      summary: List denylist (REQ-IDS-007)
+      operationId: listIdsDeny
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Add denylist entry
+      operationId: createIdsDeny
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /ids/history:
+    get:
+      summary: Ban/deny history (REQ-IDS-012)
+      operationId: listIdsHistory
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /ids/protected:
+    get:
+      summary: Protected CIDRs (REQ-IDS-014)
+      operationId: getIdsProtected
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    put:
+      summary: Update protected CIDRs
+      operationId: putIdsProtected
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+  /security-events:
+    get:
+      summary: Unified WAF+IDS events (REQ-OBS-003)
+      operationId: listSecurityEvents
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: source
+          in: query
+          schema: { type: string, enum: [waf, crowdsec] }
+      responses:
+        "200": { description: OK }
+  /users:
+    get:
+      summary: List users (admin)
+      operationId: listUsers
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+        "403": { description: Forbidden }
+    post:
+      summary: Create user (admin) — REQ-AUTH-003
+      operationId: createUser
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, role]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, minLength: 12 }
+                role: { type: string, enum: [admin, operator, viewer] }
+      responses:
+        "201": { description: Created }
+        "403": { description: Forbidden }
+  /users/{id}:
+    patch:
+      summary: Update user role and/or password (REQ-UI-009)
+      operationId: patchUser
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200": { description: OK }
+        "409": { description: Last admin conflict }
+    delete:
+      summary: Delete user (REQ-UI-009)
+      operationId: deleteUser
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200": { description: Deleted }
+        "409": { description: Self-delete or last admin }
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: nsp_session

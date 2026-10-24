@@ -1,0 +1,32 @@
+# Secrets / local env
+.env
+.env.local
+deploy/.env
+*.pem
+*.key
+!deploy/nginx/**/*.conf
+
+# Dependencies / build
+node_modules/
+apps/web/dist/
+apps/api/bin/
+apps/config-agent/bin/
+**/coverage/
+*.exe
+*.test
+*.out
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Runtime data (NPM-style bind mounts under deploy/data)
+deploy/data/**
+!deploy/data/README.md
+data/
+*.log
+deploy/nginx/generated/
+deploy/nginx/staging/
+deploy/nginx/last-good/

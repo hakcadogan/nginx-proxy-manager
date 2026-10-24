@@ -1,0 +1,3294 @@
+{
+  "crs_rules_dir": "/tmp/owasp-crs-rules",
+  "count": 411,
+  "items": [
+    {
+      "id": "901001",
+      "msg": "CRS is deployed without configuration! Please copy the crs-setup.conf.example template to crs-setup.conf, and include the crs-setup.conf file in your webserver configuration before including the CRS rules. See the INSTALL file in the CRS directory for detailed instructions",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901100",
+      "msg": "CRS rule 901100",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901110",
+      "msg": "CRS rule 901110",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901111",
+      "msg": "CRS rule 901111",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901115",
+      "msg": "CRS rule 901115",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901120",
+      "msg": "CRS rule 901120",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901125",
+      "msg": "CRS rule 901125",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901130",
+      "msg": "CRS rule 901130",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901140",
+      "msg": "CRS rule 901140",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901141",
+      "msg": "CRS rule 901141",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901142",
+      "msg": "CRS rule 901142",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901143",
+      "msg": "CRS rule 901143",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901160",
+      "msg": "CRS rule 901160",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901162",
+      "msg": "CRS rule 901162",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901163",
+      "msg": "CRS rule 901163",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901164",
+      "msg": "CRS rule 901164",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901165",
+      "msg": "CRS rule 901165",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901167",
+      "msg": "CRS rule 901167",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901168",
+      "msg": "CRS rule 901168",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901169",
+      "msg": "CRS rule 901169",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901170",
+      "msg": "CRS rule 901170",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901171",
+      "msg": "CRS rule 901171",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901200",
+      "msg": "CRS rule 901200",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901320",
+      "msg": "CRS rule 901320",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901340",
+      "msg": "Enabling body inspection",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901350",
+      "msg": "Enabling forced body inspection for ASCII content",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901410",
+      "msg": "CRS rule 901410",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901450",
+      "msg": "Sampling: Disable the rule engine based on sampling_percentage %{TX.sampling_percentage} and random number %{TX.sampling_rnd100}",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "901500",
+      "msg": "Detection paranoia level configured is lower than the paranoia level itself. This is illegal. Blocking request. Aborting",
+      "file": "REQUEST-901-INITIALIZATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "905100",
+      "msg": "CRS rule 905100",
+      "file": "REQUEST-905-COMMON-EXCEPTIONS.conf",
+      "paranoia": 0,
+      "category": "generic",
+      "phase": 1
+    },
+    {
+      "id": "905110",
+      "msg": "CRS rule 905110",
+      "file": "REQUEST-905-COMMON-EXCEPTIONS.conf",
+      "paranoia": 0,
+      "category": "generic",
+      "phase": 1
+    },
+    {
+      "id": "911100",
+      "msg": "Method is not allowed by policy",
+      "file": "REQUEST-911-METHOD-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "generic",
+      "phase": 1
+    },
+    {
+      "id": "913100",
+      "msg": "Found User-Agent associated with security scanner",
+      "file": "REQUEST-913-SCANNER-DETECTION.conf",
+      "paranoia": 1,
+      "category": "reputation-scanner",
+      "phase": 1
+    },
+    {
+      "id": "920100",
+      "msg": "Invalid HTTP Request Line",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920120",
+      "msg": "Attempted multipart/form-data bypass",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920121",
+      "msg": "Attempted multipart/form-data bypass",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920160",
+      "msg": "Content-Length HTTP header is not numeric",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920170",
+      "msg": "GET or HEAD Request with Body Content",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920171",
+      "msg": "GET or HEAD Request with Transfer-Encoding",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920180",
+      "msg": "POST without Content-Length or Transfer-Encoding headers",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920181",
+      "msg": "Content-Length and Transfer-Encoding headers present",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920190",
+      "msg": "Range: Invalid Last Byte Value",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920200",
+      "msg": "Range: Too many fields (6 or more)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920201",
+      "msg": "Range: Too many fields for pdf request (63 or more)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920202",
+      "msg": "Range: Too many fields for pdf request (6 or more)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 4,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920210",
+      "msg": "Multiple/Conflicting Connection Header Data Found",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920230",
+      "msg": "Multiple URL Encoding Detected",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920240",
+      "msg": "URL Encoding Abuse Attack Attempt",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920250",
+      "msg": "UTF8 Encoding Abuse Attack Attempt",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920260",
+      "msg": "Unicode Full/Half Width Abuse Attack Attempt",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920270",
+      "msg": "Invalid character in request (null character)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920271",
+      "msg": "Invalid character in request (non printable characters)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920272",
+      "msg": "Invalid character in request (outside of printable chars below ascii 127)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 3,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920273",
+      "msg": "Invalid character in request (outside of very strict set)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 4,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920274",
+      "msg": "Invalid character in request headers (outside of very strict set)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 4,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920275",
+      "msg": "Invalid character in request headers (outside of very strict set)",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 4,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920280",
+      "msg": "Request Missing a Host Header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920290",
+      "msg": "Empty Host Header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920300",
+      "msg": "Request Missing an Accept Header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 3,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920310",
+      "msg": "Request Has an Empty Accept Header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920311",
+      "msg": "Request Has an Empty Accept Header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920320",
+      "msg": "Missing User Agent Header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920330",
+      "msg": "Empty User Agent Header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920340",
+      "msg": "Request Containing Content, but Missing Content-Type header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920350",
+      "msg": "Host header is a numeric IP address",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920360",
+      "msg": "Argument name too long",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920370",
+      "msg": "Argument value too long",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920380",
+      "msg": "Too many arguments in request",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920390",
+      "msg": "Total arguments size exceeded",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920400",
+      "msg": "Uploaded file size too large",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920410",
+      "msg": "Total uploaded files size too large",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920420",
+      "msg": "Request content type is not allowed by policy",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920430",
+      "msg": "HTTP protocol version is not allowed by policy",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920440",
+      "msg": "URL file extension is restricted by policy",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920450",
+      "msg": "HTTP header is restricted by policy (%{MATCHED_VAR})",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920451",
+      "msg": "HTTP header is restricted by policy (%{MATCHED_VAR})",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920460",
+      "msg": "Abnormal character escapes in request",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 4,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920470",
+      "msg": "Illegal Content-Type header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920480",
+      "msg": "Request content type charset is not allowed by policy",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920490",
+      "msg": "Request header x-up-devcap-post-charset detected in combination with prefix \\",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 3,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920500",
+      "msg": "Attempt to access a backup or working file",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920510",
+      "msg": "Invalid Cache-Control request header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 3,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920520",
+      "msg": "Accept-Encoding header exceeded sensible length",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920521",
+      "msg": "Illegal Accept-Encoding header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 3,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920530",
+      "msg": "Multiple charsets detected in content type header",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920540",
+      "msg": "Possible Unicode character bypass detected",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "920600",
+      "msg": "Illegal Accept header: charset parameter",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920610",
+      "msg": "Raw (unencoded) fragment in request URI",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "920620",
+      "msg": "Multiple Content-Type Request Headers",
+      "file": "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921110",
+      "msg": "HTTP Request Smuggling Attack",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "921120",
+      "msg": "HTTP Response Splitting Attack",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "921130",
+      "msg": "HTTP Response Splitting Attack",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "921140",
+      "msg": "HTTP Header Injection Attack via headers",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921150",
+      "msg": "HTTP Header Injection Attack via payload (CR/LF detected)",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "921151",
+      "msg": "HTTP Header Injection Attack via payload (CR/LF detected)",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921160",
+      "msg": "HTTP Header Injection Attack via payload (CR/LF and header-name detected)",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921170",
+      "msg": "CRS rule 921170",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 0,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "921180",
+      "msg": "HTTP Parameter Pollution (%{MATCHED_VAR_NAME})",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 3,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "921190",
+      "msg": "HTTP Splitting (CR/LF in request filename detected)",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921200",
+      "msg": "LDAP Injection Attack",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "PROTOCOL-ATTACK",
+      "phase": 2
+    },
+    {
+      "id": "921210",
+      "msg": "HTTP Parameter Pollution after detecting bogus char after parameter array",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 3,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "921220",
+      "msg": "HTTP Parameter Pollution possible via array notation",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 4,
+      "category": "protocol",
+      "phase": 2
+    },
+    {
+      "id": "921230",
+      "msg": "HTTP Range Header detected",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 3,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921240",
+      "msg": "mod_proxy attack attempt detected",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921250",
+      "msg": "Old Cookies V1 usage attempt detected",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921421",
+      "msg": "Content-Type header: Dangerous content type outside the mime type declaration",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 1,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "921422",
+      "msg": "Content-Type header: Dangerous content type outside the mime type declaration",
+      "file": "REQUEST-921-PROTOCOL-ATTACK.conf",
+      "paranoia": 2,
+      "category": "protocol",
+      "phase": 1
+    },
+    {
+      "id": "922100",
+      "msg": "Multipart content type global _charset_ definition is not allowed by policy",
+      "file": "REQUEST-922-MULTIPART-ATTACK.conf",
+      "paranoia": 1,
+      "category": "multipart-header",
+      "phase": 2
+    },
+    {
+      "id": "922110",
+      "msg": "Illegal MIME Multipart Header content-type: charset parameter",
+      "file": "REQUEST-922-MULTIPART-ATTACK.conf",
+      "paranoia": 1,
+      "category": "multipart-header",
+      "phase": 2
+    },
+    {
+      "id": "922120",
+      "msg": "Content-Transfer-Encoding was deprecated by rfc7578 in 2015 and should not be used",
+      "file": "REQUEST-922-MULTIPART-ATTACK.conf",
+      "paranoia": 1,
+      "category": "multipart-header",
+      "phase": 2
+    },
+    {
+      "id": "922130",
+      "msg": "Multipart header contains characters outside of valid range",
+      "file": "REQUEST-922-MULTIPART-ATTACK.conf",
+      "paranoia": 1,
+      "category": "multipart-header",
+      "phase": 2
+    },
+    {
+      "id": "930100",
+      "msg": "Path Traversal Attack (/../) or (/.../)",
+      "file": "REQUEST-930-APPLICATION-ATTACK-LFI.conf",
+      "paranoia": 1,
+      "category": "lfi",
+      "phase": 2
+    },
+    {
+      "id": "930110",
+      "msg": "Path Traversal Attack (/../) or (/.../)",
+      "file": "REQUEST-930-APPLICATION-ATTACK-LFI.conf",
+      "paranoia": 1,
+      "category": "lfi",
+      "phase": 2
+    },
+    {
+      "id": "930120",
+      "msg": "OS File Access Attempt",
+      "file": "REQUEST-930-APPLICATION-ATTACK-LFI.conf",
+      "paranoia": 1,
+      "category": "lfi",
+      "phase": 2
+    },
+    {
+      "id": "930121",
+      "msg": "OS File Access Attempt in REQUEST_HEADERS",
+      "file": "REQUEST-930-APPLICATION-ATTACK-LFI.conf",
+      "paranoia": 2,
+      "category": "lfi",
+      "phase": 1
+    },
+    {
+      "id": "930130",
+      "msg": "Restricted File Access Attempt",
+      "file": "REQUEST-930-APPLICATION-ATTACK-LFI.conf",
+      "paranoia": 1,
+      "category": "lfi",
+      "phase": 1
+    },
+    {
+      "id": "931100",
+      "msg": "Possible Remote File Inclusion (RFI) Attack: URL Parameter using IP Address",
+      "file": "REQUEST-931-APPLICATION-ATTACK-RFI.conf",
+      "paranoia": 1,
+      "category": "rfi",
+      "phase": 2
+    },
+    {
+      "id": "931110",
+      "msg": "Possible Remote File Inclusion (RFI) Attack: Common RFI Vulnerable Parameter Name used w/URL Payload",
+      "file": "REQUEST-931-APPLICATION-ATTACK-RFI.conf",
+      "paranoia": 1,
+      "category": "rfi",
+      "phase": 2
+    },
+    {
+      "id": "931120",
+      "msg": "Possible Remote File Inclusion (RFI) Attack: URL Payload Used w/Trailing Question Mark Character (?)",
+      "file": "REQUEST-931-APPLICATION-ATTACK-RFI.conf",
+      "paranoia": 1,
+      "category": "rfi",
+      "phase": 2
+    },
+    {
+      "id": "931130",
+      "msg": "Possible Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link",
+      "file": "REQUEST-931-APPLICATION-ATTACK-RFI.conf",
+      "paranoia": 2,
+      "category": "rfi",
+      "phase": 2
+    },
+    {
+      "id": "931131",
+      "msg": "Possible Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link",
+      "file": "REQUEST-931-APPLICATION-ATTACK-RFI.conf",
+      "paranoia": 2,
+      "category": "rfi",
+      "phase": 1
+    },
+    {
+      "id": "932120",
+      "msg": "Remote Command Execution: Windows PowerShell Command Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932125",
+      "msg": "Remote Command Execution: Windows Powershell Alias Command Injection",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932130",
+      "msg": "Remote Command Execution: Unix Shell Expression Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932131",
+      "msg": "Remote Command Execution: Unix Shell Expression Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 1
+    },
+    {
+      "id": "932140",
+      "msg": "Remote Command Execution: Windows FOR/IF Command Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932160",
+      "msg": "Remote Command Execution: Unix Shell Code Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932161",
+      "msg": "Remote Command Execution: Unix Shell Code Found in REQUEST_HEADERS",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 1
+    },
+    {
+      "id": "932170",
+      "msg": "Remote Command Execution: Shellshock (CVE-2014-6271)",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 1
+    },
+    {
+      "id": "932171",
+      "msg": "Remote Command Execution: Shellshock (CVE-2014-6271)",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932175",
+      "msg": "Remote Command Execution: Unix shell alias invocation",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932180",
+      "msg": "Restricted File Upload Attempt",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932190",
+      "msg": "Remote Command Execution: Wildcard bypass technique attempt",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932200",
+      "msg": "RCE Bypass Technique",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932205",
+      "msg": "RCE Bypass Technique",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 1
+    },
+    {
+      "id": "932206",
+      "msg": "RCE Bypass Technique",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 1
+    },
+    {
+      "id": "932207",
+      "msg": "RCE Bypass Technique",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 1
+    },
+    {
+      "id": "932210",
+      "msg": "Remote Command Execution: SQLite System Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932220",
+      "msg": "Remote Command Execution: Unix Command Injection with pipe",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932230",
+      "msg": "Remote Command Execution: Unix Command Injection (2-3 chars)",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932231",
+      "msg": "Remote Command Execution: Unix Command Injection",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932232",
+      "msg": "Remote Command Execution: Unix Command Injection",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932235",
+      "msg": "Remote Command Execution: Unix Command Injection (command without evasion)",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932236",
+      "msg": "Remote Command Execution: Unix Command Injection (command without evasion)",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932237",
+      "msg": "Remote Command Execution: Unix Shell Code Found in REQUEST_HEADERS",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 1
+    },
+    {
+      "id": "932238",
+      "msg": "Remote Command Execution: Unix Shell Code Found in REQUEST_HEADERS",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932239",
+      "msg": "Remote Command Execution: Unix Command Injection found in user-agent or referer header",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 1
+    },
+    {
+      "id": "932240",
+      "msg": "Remote Command Execution: Unix Command Injection evasion attempt detected",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932250",
+      "msg": "Remote Command Execution: Direct Unix Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932260",
+      "msg": "Remote Command Execution: Direct Unix Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932270",
+      "msg": "Remote Command Execution: Unix Shell Expression Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932271",
+      "msg": "Remote Command Execution: Unix Shell Expression Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932280",
+      "msg": "Remote Command Execution: Brace Expansion Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932281",
+      "msg": "Remote Command Execution: Brace Expansion Found",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932300",
+      "msg": "Remote Command Execution: SMTP Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932301",
+      "msg": "Remote Command Execution: SMTP Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932310",
+      "msg": "Remote Command Execution: IMAP Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932311",
+      "msg": "Remote Command Execution: IMAP Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932320",
+      "msg": "Remote Command Execution: POP3 Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932321",
+      "msg": "Remote Command Execution: POP3 Command Execution",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932330",
+      "msg": "Remote Command Execution: Unix shell history invocation",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932331",
+      "msg": "Remote Command Execution: Unix shell history invocation",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932370",
+      "msg": "Remote Command Execution: Windows Command Injection",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932371",
+      "msg": "Remote Command Execution: Windows Command Injection",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "932380",
+      "msg": "Remote Command Execution: Windows Command Injection",
+      "file": "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "933100",
+      "msg": "PHP Injection Attack: PHP Open Tag Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933110",
+      "msg": "PHP Injection Attack: PHP Script File Upload Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933111",
+      "msg": "PHP Injection Attack: PHP Script File Upload Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 3,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933120",
+      "msg": "PHP Injection Attack: Configuration Directive Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933130",
+      "msg": "PHP Injection Attack: Variables Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933131",
+      "msg": "PHP Injection Attack: Variables Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 3,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933135",
+      "msg": "PHP Injection Attack: Variable Access Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933140",
+      "msg": "PHP Injection Attack: I/O Stream Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933150",
+      "msg": "PHP Injection Attack: High-Risk PHP Function Name Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933151",
+      "msg": "PHP Injection Attack: Medium-Risk PHP Function Name Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 2,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933152",
+      "msg": "PHP Injection Attack: Medium-Risk PHP Function Name Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 2,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933153",
+      "msg": "PHP Injection Attack: Medium-Risk PHP Function Name Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 2,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933160",
+      "msg": "PHP Injection Attack: High-Risk PHP Function Call Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933161",
+      "msg": "PHP Injection Attack: Low-Value PHP Function Call Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 3,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933170",
+      "msg": "PHP Injection Attack: Serialized Object Injection",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933180",
+      "msg": "PHP Injection Attack: Variable Function Call Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933190",
+      "msg": "PHP Injection Attack: PHP Closing Tag Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 3,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933200",
+      "msg": "PHP Injection Attack: Wrapper scheme detected",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933210",
+      "msg": "PHP Injection Attack: Variable Function Call Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 1,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "933211",
+      "msg": "PHP Injection Attack: Variable Function Call Found",
+      "file": "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+      "paranoia": 3,
+      "category": "injection-php",
+      "phase": 2
+    },
+    {
+      "id": "934100",
+      "msg": "Node.js Injection Attack 1/2",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "934101",
+      "msg": "Node.js Injection Attack 2/2",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "934110",
+      "msg": "Possible Server Side Request Forgery (SSRF) Attack: Cloud provider metadata URL in Parameter",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 1,
+      "category": "ssrf",
+      "phase": 2
+    },
+    {
+      "id": "934120",
+      "msg": "Possible Server Side Request Forgery (SSRF) Attack: URL Parameter using IP Address",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 2,
+      "category": "ssrf",
+      "phase": 2
+    },
+    {
+      "id": "934130",
+      "msg": "JavaScript Prototype Pollution",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "934140",
+      "msg": "Perl Injection Attack",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "934150",
+      "msg": "Ruby Injection Attack",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "934160",
+      "msg": "Node.js DoS attack",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "934170",
+      "msg": "PHP data scheme attack",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 1,
+      "category": "ssrf",
+      "phase": 2
+    },
+    {
+      "id": "934180",
+      "msg": "SSTI Attack",
+      "file": "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+      "paranoia": 2,
+      "category": "ssti",
+      "phase": 2
+    },
+    {
+      "id": "941010",
+      "msg": "CRS rule 941010",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 0,
+      "category": "ATTACK-XSS",
+      "phase": 1
+    },
+    {
+      "id": "941100",
+      "msg": "XSS Attack Detected via libinjection",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941101",
+      "msg": "XSS Attack Detected via libinjection",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 2,
+      "category": "xss",
+      "phase": 1
+    },
+    {
+      "id": "941110",
+      "msg": "XSS Filter - Category 1: Script Tag Vector",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941120",
+      "msg": "XSS Filter - Category 2: Event Handler Vector",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 2,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941130",
+      "msg": "XSS Filter - Category 3: Attribute Vector",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941140",
+      "msg": "XSS Filter - Category 4: Javascript URI Vector",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941150",
+      "msg": "XSS Filter - Category 5: Disallowed HTML Attributes",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 2,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941160",
+      "msg": "NoScript XSS InjectionChecker: HTML Injection",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941170",
+      "msg": "NoScript XSS InjectionChecker: Attribute Injection",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941180",
+      "msg": "Node-Validator Deny List Keywords",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941181",
+      "msg": "Node-Validator Deny List Keywords",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 2,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941190",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941200",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941210",
+      "msg": "Javascript Word Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941220",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941230",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941240",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941250",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941260",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941270",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941280",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941290",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941300",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941310",
+      "msg": "US-ASCII Malformed Encoding XSS Filter - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941320",
+      "msg": "Possible XSS Attack Detected - HTML Tag Handler",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 2,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941330",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 2,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941340",
+      "msg": "IE XSS Filters - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 2,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941350",
+      "msg": "UTF-7 Encoding IE XSS - Attack Detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941360",
+      "msg": "JSFuck / Hieroglyphy obfuscation detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941370",
+      "msg": "JavaScript global variable found",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941380",
+      "msg": "AngularJS client side template injection detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 2,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941390",
+      "msg": "Javascript method detected",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "941400",
+      "msg": "XSS JavaScript function without parentheses",
+      "file": "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+      "paranoia": 1,
+      "category": "xss",
+      "phase": 2
+    },
+    {
+      "id": "942100",
+      "msg": "SQL Injection Attack Detected via libinjection",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942101",
+      "msg": "SQL Injection Attack Detected via libinjection",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 1
+    },
+    {
+      "id": "942120",
+      "msg": "SQL Injection Attack: SQL Operator Detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942130",
+      "msg": "SQL Injection Attack: SQL Boolean-based attack detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942131",
+      "msg": "SQL Injection Attack: SQL Boolean-based attack detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942140",
+      "msg": "SQL Injection Attack: Common DB Names Detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942150",
+      "msg": "SQL Injection Attack: SQL function name detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942151",
+      "msg": "SQL Injection Attack: SQL function name detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942152",
+      "msg": "SQL Injection Attack: SQL function name detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 1
+    },
+    {
+      "id": "942160",
+      "msg": "Detects blind sqli tests using sleep() or benchmark()",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942170",
+      "msg": "Detects SQL benchmark and sleep injection attempts including conditional queries",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942180",
+      "msg": "Detects basic SQL authentication bypass attempts 1/3",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942190",
+      "msg": "Detects MSSQL code execution and information gathering attempts",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942200",
+      "msg": "Detects MySQL comment-/space-obfuscated injections and backtick termination",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942210",
+      "msg": "Detects chained SQL injection attempts 1/2",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942220",
+      "msg": "Looking for integer overflow attacks, these are taken from skipfish, except 2.2.2250738585072011e-308 is the \\\"magic number\\\" crash",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942230",
+      "msg": "Detects conditional SQL injection attempts",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942240",
+      "msg": "Detects MySQL charset switch and MSSQL DoS attempts",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942250",
+      "msg": "Detects MATCH AGAINST, MERGE and EXECUTE IMMEDIATE injections",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942251",
+      "msg": "Detects HAVING injections",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 3,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942260",
+      "msg": "Detects basic SQL authentication bypass attempts 2/3",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942270",
+      "msg": "Looking for basic sql injection. Common attack string for mysql, oracle and others",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942280",
+      "msg": "Detects Postgres pg_sleep injection, waitfor delay attacks and database shutdown attempts",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942290",
+      "msg": "Finds basic MongoDB SQL injection attempts",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942300",
+      "msg": "Detects MySQL comments, conditions and ch(a)r injections",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942310",
+      "msg": "Detects chained SQL injection attempts 2/2",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942320",
+      "msg": "Detects MySQL and PostgreSQL stored procedure/function injections",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942321",
+      "msg": "Detects MySQL and PostgreSQL stored procedure/function injections",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 1
+    },
+    {
+      "id": "942330",
+      "msg": "Detects classic SQL injection probings 1/3",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942340",
+      "msg": "Detects basic SQL authentication bypass attempts 3/3",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942350",
+      "msg": "Detects MySQL UDF injection and other data/structure manipulation attempts",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942360",
+      "msg": "Detects concatenated basic SQL injection and SQLLFI attempts",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942361",
+      "msg": "Detects basic SQL injection based on keyword alter or union",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942362",
+      "msg": "Detects concatenated basic SQL injection and SQLLFI attempts",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942370",
+      "msg": "Detects classic SQL injection probings 2/3",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942380",
+      "msg": "SQL Injection Attack",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942390",
+      "msg": "SQL Injection Attack",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942400",
+      "msg": "SQL Injection Attack",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942410",
+      "msg": "SQL Injection Attack",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942420",
+      "msg": "Restricted SQL Character Anomaly Detection (cookies): # of special characters exceeded (8)",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 3,
+      "category": "sqli",
+      "phase": 1
+    },
+    {
+      "id": "942421",
+      "msg": "Restricted SQL Character Anomaly Detection (cookies): # of special characters exceeded (3)",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 4,
+      "category": "sqli",
+      "phase": 1
+    },
+    {
+      "id": "942430",
+      "msg": "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (12)",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942431",
+      "msg": "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (6)",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 3,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942432",
+      "msg": "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (2)",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 4,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942440",
+      "msg": "SQL Comment Sequence Detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942441",
+      "msg": "CRS rule 942441",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 0,
+      "category": "ATTACK-SQLI",
+      "phase": 2
+    },
+    {
+      "id": "942442",
+      "msg": "CRS rule 942442",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 0,
+      "category": "ATTACK-SQLI",
+      "phase": 2
+    },
+    {
+      "id": "942450",
+      "msg": "SQL Hex Encoding Identified",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942460",
+      "msg": "Meta-Character Anomaly Detection Alert - Repetitive Non-Word Characters",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 3,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942470",
+      "msg": "SQL Injection Attack",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942480",
+      "msg": "SQL Injection Attack",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942490",
+      "msg": "Detects classic SQL injection probings 3/3",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 3,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942500",
+      "msg": "MySQL in-line comment detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942510",
+      "msg": "SQLi bypass attempt by ticks or backticks detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942511",
+      "msg": "SQLi bypass attempt by ticks detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 3,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942520",
+      "msg": "Detects basic SQL authentication bypass attempts 4.0/4",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942521",
+      "msg": "Detects basic SQL authentication bypass attempts 4.1/4",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942522",
+      "msg": "Detects basic SQL authentication bypass attempts 4.1/4",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 2,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942530",
+      "msg": "SQLi query termination detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 3,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942540",
+      "msg": "SQL Authentication bypass (split query)",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942550",
+      "msg": "JSON-Based SQL Injection",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "942560",
+      "msg": "MySQL Scientific Notation payload detected",
+      "file": "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+      "paranoia": 1,
+      "category": "sqli",
+      "phase": 2
+    },
+    {
+      "id": "943100",
+      "msg": "Possible Session Fixation Attack: Setting Cookie Values in HTML",
+      "file": "REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION.conf",
+      "paranoia": 1,
+      "category": "fixation",
+      "phase": 2
+    },
+    {
+      "id": "943110",
+      "msg": "Possible Session Fixation Attack: SessionID Parameter Name with Off-Domain Referer",
+      "file": "REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION.conf",
+      "paranoia": 1,
+      "category": "fixation",
+      "phase": 2
+    },
+    {
+      "id": "943120",
+      "msg": "Possible Session Fixation Attack: SessionID Parameter Name with No Referer",
+      "file": "REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION.conf",
+      "paranoia": 1,
+      "category": "fixation",
+      "phase": 2
+    },
+    {
+      "id": "944100",
+      "msg": "Remote Command Execution: Suspicious Java class detected",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944110",
+      "msg": "Remote Command Execution: Java process spawn (CVE-2017-9805)",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944120",
+      "msg": "Remote Command Execution: Java serialization (CVE-2015-4852)",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944130",
+      "msg": "Suspicious Java class detected",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944140",
+      "msg": "Java Injection Attack: Java Script File Upload Found",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 1,
+      "category": "injection-java",
+      "phase": 2
+    },
+    {
+      "id": "944150",
+      "msg": "Potential Remote Command Execution: Log4j / Log4shell",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944151",
+      "msg": "Potential Remote Command Execution: Log4j / Log4shell",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944152",
+      "msg": "Potential Remote Command Execution: Log4j / Log4shell",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 4,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944200",
+      "msg": "Magic bytes Detected, probable java serialization in use",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944210",
+      "msg": "Magic bytes Detected Base64 Encoded, probable java serialization in use",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944240",
+      "msg": "Remote Command Execution: Java serialization (CVE-2015-4852)",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944250",
+      "msg": "Remote Command Execution: Suspicious Java method detected",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944260",
+      "msg": "Remote Command Execution: Malicious class-loading payload",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "944300",
+      "msg": "Base64 encoded string matched suspicious keyword",
+      "file": "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+      "paranoia": 3,
+      "category": "rce",
+      "phase": 2
+    },
+    {
+      "id": "949052",
+      "msg": "CRS rule 949052",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949053",
+      "msg": "CRS rule 949053",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949054",
+      "msg": "CRS rule 949054",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949055",
+      "msg": "CRS rule 949055",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949059",
+      "msg": "CRS rule 949059",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949060",
+      "msg": "CRS rule 949060",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949061",
+      "msg": "CRS rule 949061",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949062",
+      "msg": "CRS rule 949062",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949063",
+      "msg": "CRS rule 949063",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949110",
+      "msg": "Inbound Anomaly Score Exceeded (Total Score: %{TX.BLOCKING_INBOUND_ANOMALY_SCORE})",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949111",
+      "msg": "Inbound Anomaly Score Exceeded in phase 1 (Total Score: %{TX.BLOCKING_INBOUND_ANOMALY_SCORE})",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949152",
+      "msg": "CRS rule 949152",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949153",
+      "msg": "CRS rule 949153",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949154",
+      "msg": "CRS rule 949154",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949155",
+      "msg": "CRS rule 949155",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 1
+    },
+    {
+      "id": "949159",
+      "msg": "CRS rule 949159",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949160",
+      "msg": "CRS rule 949160",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949161",
+      "msg": "CRS rule 949161",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949162",
+      "msg": "CRS rule 949162",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "949163",
+      "msg": "CRS rule 949163",
+      "file": "REQUEST-949-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 2
+    },
+    {
+      "id": "950100",
+      "msg": "The Application Returned a 500-Level Status Code",
+      "file": "RESPONSE-950-DATA-LEAKAGES.conf",
+      "paranoia": 2,
+      "category": "disclosure",
+      "phase": 3
+    },
+    {
+      "id": "950130",
+      "msg": "Directory Listing",
+      "file": "RESPONSE-950-DATA-LEAKAGES.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "950140",
+      "msg": "CGI source code leakage",
+      "file": "RESPONSE-950-DATA-LEAKAGES.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "950150",
+      "msg": "ASP.NET exception leakage",
+      "file": "RESPONSE-950-DATA-LEAKAGES.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951110",
+      "msg": "Microsoft Access SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951120",
+      "msg": "Oracle SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951130",
+      "msg": "DB2 SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951140",
+      "msg": "EMC SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951150",
+      "msg": "firebird SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951160",
+      "msg": "Frontbase SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951170",
+      "msg": "hsqldb SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951180",
+      "msg": "informix SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951190",
+      "msg": "ingres SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951200",
+      "msg": "interbase SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951210",
+      "msg": "maxDB SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951220",
+      "msg": "mssql SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951230",
+      "msg": "mysql SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951240",
+      "msg": "postgres SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951250",
+      "msg": "sqlite SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "951260",
+      "msg": "Sybase SQL Information Leakage",
+      "file": "RESPONSE-951-DATA-LEAKAGES-SQL.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "952110",
+      "msg": "Java Errors",
+      "file": "RESPONSE-952-DATA-LEAKAGES-JAVA.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "953100",
+      "msg": "PHP Information Leakage",
+      "file": "RESPONSE-953-DATA-LEAKAGES-PHP.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "953101",
+      "msg": "PHP Information Leakage",
+      "file": "RESPONSE-953-DATA-LEAKAGES-PHP.conf",
+      "paranoia": 2,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "953110",
+      "msg": "PHP source code leakage",
+      "file": "RESPONSE-953-DATA-LEAKAGES-PHP.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "953120",
+      "msg": "PHP source code leakage",
+      "file": "RESPONSE-953-DATA-LEAKAGES-PHP.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "954100",
+      "msg": "Disclosure of IIS install location",
+      "file": "RESPONSE-954-DATA-LEAKAGES-IIS.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "954101",
+      "msg": "Disclosure of IIS install location",
+      "file": "RESPONSE-954-DATA-LEAKAGES-IIS.conf",
+      "paranoia": 2,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "954110",
+      "msg": "Application Availability Error",
+      "file": "RESPONSE-954-DATA-LEAKAGES-IIS.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "954120",
+      "msg": "IIS Information Leakage",
+      "file": "RESPONSE-954-DATA-LEAKAGES-IIS.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "954130",
+      "msg": "IIS Information Leakage",
+      "file": "RESPONSE-954-DATA-LEAKAGES-IIS.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "955100",
+      "msg": "PHP Web shell detected",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955110",
+      "msg": "r57 web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955120",
+      "msg": "WSO web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955130",
+      "msg": "b4tm4n web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955140",
+      "msg": "Mini Shell web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955150",
+      "msg": "Ashiyane web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955160",
+      "msg": "Symlink_Sa web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955170",
+      "msg": "CasuS web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955180",
+      "msg": "GRP WebShell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955190",
+      "msg": "NGHshell web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955200",
+      "msg": "SimAttacker web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955210",
+      "msg": "Unknown web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955220",
+      "msg": "lama\\",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955230",
+      "msg": "lostDC web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955240",
+      "msg": "Unknown web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955250",
+      "msg": "Unknown web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955260",
+      "msg": "Ru24PostWebShell web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955270",
+      "msg": "s72 Shell web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955280",
+      "msg": "PhpSpy web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955290",
+      "msg": "g00nshell web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955300",
+      "msg": "PuNkHoLic shell web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955310",
+      "msg": "azrail web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955320",
+      "msg": "SmEvK_PaThAn Shell web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955330",
+      "msg": "Shell I web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955340",
+      "msg": "b374k m1n1 web shell",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955350",
+      "msg": "webadmin.php file manager",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 2,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "955400",
+      "msg": "ASP Web shell detected",
+      "file": "RESPONSE-955-WEB-SHELLS.conf",
+      "paranoia": 1,
+      "category": "rce",
+      "phase": 4
+    },
+    {
+      "id": "956100",
+      "msg": "RUBY Information Leakage",
+      "file": "RESPONSE-956-DATA-LEAKAGES-RUBY.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "956110",
+      "msg": "Ruby source code leakage",
+      "file": "RESPONSE-956-DATA-LEAKAGES-RUBY.conf",
+      "paranoia": 1,
+      "category": "disclosure",
+      "phase": 4
+    },
+    {
+      "id": "959052",
+      "msg": "CRS rule 959052",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959053",
+      "msg": "CRS rule 959053",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959054",
+      "msg": "CRS rule 959054",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959055",
+      "msg": "CRS rule 959055",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959059",
+      "msg": "CRS rule 959059",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959060",
+      "msg": "CRS rule 959060",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959061",
+      "msg": "CRS rule 959061",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959062",
+      "msg": "CRS rule 959062",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959063",
+      "msg": "CRS rule 959063",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959100",
+      "msg": "Outbound Anomaly Score Exceeded (Total Score: %{tx.blocking_outbound_anomaly_score})",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959101",
+      "msg": "Outbound Anomaly Score Exceeded in phase 3 (Total Score: %{tx.blocking_outbound_anomaly_score})",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959152",
+      "msg": "CRS rule 959152",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959153",
+      "msg": "CRS rule 959153",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959154",
+      "msg": "CRS rule 959154",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959155",
+      "msg": "CRS rule 959155",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 3
+    },
+    {
+      "id": "959159",
+      "msg": "CRS rule 959159",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959160",
+      "msg": "CRS rule 959160",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959161",
+      "msg": "CRS rule 959161",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959162",
+      "msg": "CRS rule 959162",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "959163",
+      "msg": "CRS rule 959163",
+      "file": "RESPONSE-959-BLOCKING-EVALUATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 4
+    },
+    {
+      "id": "980099",
+      "msg": "CRS rule 980099",
+      "file": "RESPONSE-980-CORRELATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 5
+    },
+    {
+      "id": "980170",
+      "msg": "Anomaly Scores:  (Inbound Scores: blocking=%{tx.blocking_inbound_anomaly_score}, detection=%{tx.detection_inbound_anomaly_score}, per_pl=%{tx.inbound_anomaly_score_pl1}-%{tx.inbound_anomaly_score_pl2}-%{tx.inbound_anomaly_score_pl3}-%{tx.inbound_anomaly_score_pl4}, threshold=%{tx.inbound_anomaly_score_threshold}) -  (Outbound Scores: blocking=%{tx.blocking_outbound_anomaly_score}, detection=%{tx.detection_outbound_anomaly_score}, per_pl=%{tx.outbound_anomaly_score_pl1}-%{tx.outbound_anomaly_score_pl2}-%{tx.outbound_anomaly_score_pl3}-%{tx.outbound_anomaly_score_pl4}, threshold=%{tx.outbound_anomaly_score_threshold}) -  (SQLI=%{tx.sql_injection_score}, XSS=%{tx.xss_score}, RFI=%{tx.rfi_score}, LFI=%{tx.lfi_score}, RCE=%{tx.rce_score}, PHPI=%{tx.php_injection_score}, HTTP=%{tx.http_violation_score}, SESS=%{tx.session_fixation_score}, COMBINED_SCORE=%{tx.anomaly_score})",
+      "file": "RESPONSE-980-CORRELATION.conf",
+      "paranoia": 0,
+      "category": "other",
+      "phase": 5
+    },
+    {
+      "id": "1000090",
+      "msg": "NSP UA allowlist skip (bad-bot bypass)",
+      "file": "nsp-overlay",
+      "paranoia": 0,
+      "category": "bad-bot",
+      "phase": 1
+    },
+    {
+      "id": "1000100",
+      "msg": "NSP bad bot User-Agent",
+      "file": "nsp-overlay",
+      "paranoia": 0,
+      "category": "bad-bot",
+      "phase": 1
+    }
+  ]
+}

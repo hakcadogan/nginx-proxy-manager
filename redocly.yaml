@@ -1,0 +1,16 @@
+# OpenAPI lint config for P01 draft (REQ-API-002 / REQ-QA-004)
+apis:
+  nsp@v1:
+    root: api/openapi.yaml
+
+extends:
+  - recommended
+
+rules:
+  operation-summary: warn
+  operation-4xx-response: warn
+  operation-operationId: error
+  no-unused-components: off
+  info-license: off
+  tag-description: off
+  security-defined: warn

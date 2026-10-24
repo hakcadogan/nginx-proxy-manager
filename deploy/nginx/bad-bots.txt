@@ -1,0 +1,20 @@
+# REQ-RATE-004 — known bad bot User-Agents (pmFromFile)
+semrush
+ahrefs
+majestic
+dotbot
+petalbot
+bytespider
+gptbot
+ccbot
+scrapy
+python-requests/
+curl/
+wget/
+nikto
+sqlmap
+nmap
+masscan
+zgrab
+gobuster
+dirbuster

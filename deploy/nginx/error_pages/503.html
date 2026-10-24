@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>503 Service Unavailable</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      font-family: "DM Sans", "Segoe UI", system-ui, sans-serif;
+      color: #121a24;
+      background:
+        radial-gradient(900px 480px at 0% 0%, #d9e5e2 0%, transparent 55%),
+        radial-gradient(700px 400px at 100% 100%, #e8eef5 0%, transparent 50%),
+        #e8ecef;
+    }
+    main {
+      width: min(28rem, calc(100% - 2rem));
+      padding: 2rem 1.75rem;
+      background: #fff;
+      border: 1px solid #c9d3dd;
+      border-radius: 14px;
+      box-shadow: 0 1px 2px rgba(26,35,50,.04), 0 8px 24px rgba(26,35,50,.06);
+    }
+    .code { font-size: 0.8rem; font-weight: 650; letter-spacing: .08em; color: #0a5f5c; text-transform: uppercase; }
+    h1 { margin: 0.4rem 0 0.6rem; font-size: 1.55rem; letter-spacing: -0.02em; }
+    p { margin: 0; color: #4a5a6a; line-height: 1.45; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="code">503</div>
+    <h1>Service unavailable</h1>
+    <p>The service is temporarily unavailable. Please try again later.</p>
+  </main>
+</body>
+</html>

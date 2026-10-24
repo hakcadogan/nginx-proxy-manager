@@ -1,0 +1,51 @@
+# P04: Nginx + ModSecurity v3 + OWASP CRS (pinned) — REQ-WAF-001/002, RISK-01
+# Base: official CRS docker (nginx + connector + CRS). We replace entrypoint with NSP agent.
+ARG CRS_IMAGE=owasp/modsecurity-crs:4.20.0-nginx-alpine-202511100111
+
+FROM golang:1.24-alpine AS agentbuild
+WORKDIR /src
+COPY apps/config-agent/go.mod ./
+COPY apps/config-agent/ ./
+RUN CGO_ENABLED=0 GOOS=linux go build -o /out/config-agent ./cmd/agent
+
+FROM ${CRS_IMAGE}
+USER root
+RUN apk add --no-cache curl ca-certificates \
+    && mkdir -p /etc/nginx/modsec /var/lib/nsp/modsec /var/lib/nsp/staging /var/lib/nsp/last-good \
+         /data/logs/nginx/proxy_host /data/logs/nginx/proxy_host_error \
+         /data/nginx/proxy_host /data/nginx/custom /data/certs \
+    && ln -sf /etc/modsecurity.d/unicode.mapping /etc/nginx/modsec/unicode.mapping || true \
+    && if [ -f /opt/owasp-crs/crs-setup.conf.example ] && [ ! -f /opt/owasp-crs/crs-setup.conf ]; then \
+         cp /opt/owasp-crs/crs-setup.conf.example /opt/owasp-crs/crs-setup.conf; \
+       fi
+
+COPY --from=agentbuild /out/config-agent /usr/local/bin/config-agent
+COPY deploy/nginx/modsecurity.conf /etc/nginx/modsec/modsecurity.conf
+COPY deploy/nginx/modsec-main.conf /etc/nginx/modsec/main.conf
+COPY deploy/nginx/engine-DetectionOnly.conf /etc/nginx/modsec/engine-DetectionOnly.conf
+COPY deploy/nginx/engine-On.conf /etc/nginx/modsec/engine-On.conf
+COPY deploy/nginx/engine-Off.conf /etc/nginx/modsec/engine-Off.conf
+COPY deploy/nginx/bad-bots.txt /etc/nginx/modsec/bad-bots.txt
+COPY deploy/nginx/crs-rules-catalog.json /etc/nginx/modsec/crs-rules-catalog.json
+COPY deploy/nginx/error_pages/ /etc/nginx/nsp-error-pages/
+COPY deploy/nginx/docker-entrypoint.sh /docker-entrypoint-nsp.sh
+COPY deploy/nginx/baseline.conf /etc/nginx/nginx.conf
+RUN chmod +x /docker-entrypoint-nsp.sh \
+    && printf '%s\n' '# generated overlay placeholder' > /var/lib/nsp/modsec/overlay.conf \
+    && printf '%s\n' '# ua allowlist placeholder' > /var/lib/nsp/modsec/ua-allowlist.txt \
+    && cp /etc/nginx/modsec/crs-rules-catalog.json /var/lib/nsp/modsec/crs-rules-catalog.json \
+    && mkdir -p /data/nginx/error_pages \
+    && cp -a /etc/nginx/nsp-error-pages/. /data/nginx/error_pages/ \
+    && chown -R root:root /etc/nginx/modsec /etc/nginx/nsp-error-pages /var/lib/nsp
+
+# CRS version file for gate / API (shared volume via entrypoint)
+RUN set -eu; \
+    ver="$(grep -RhoE 'OWASP CRS ver\.[0-9]+\.[0-9]+(\.[0-9]+)?' /opt/owasp-crs/rules 2>/dev/null | head -1 | sed 's/OWASP CRS ver\.//')" || true; \
+    [ -n "$ver" ] || ver="4.20.0"; \
+    printf 'CRS=%s\nMODSECURITY=3.0.14\n' "$ver" > /etc/nginx/modsec/crs-version.txt
+
+ENV LD_LIBRARY_PATH=/usr/local/modsecurity/lib:${LD_LIBRARY_PATH}
+
+EXPOSE 80 443 8090
+HEALTHCHECK --interval=10s --timeout=3s --retries=5 CMD curl -fsS http://127.0.0.1:8090/health && curl -fsS http://127.0.0.1/healthz || exit 1
+ENTRYPOINT ["/docker-entrypoint-nsp.sh"]

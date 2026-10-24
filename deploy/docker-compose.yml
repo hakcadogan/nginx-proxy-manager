@@ -1,0 +1,200 @@
+# REQ-OPS-001..006 — control plane vs data plane, volumes, healthchecks, no Docker socket
+# Data layout (NPM-style): ./data/{logs,nginx,certs} bind-mounted — see data/README.md
+name: nsp
+
+networks:
+  frontend:
+  control:
+  data:
+  persist:
+
+volumes:
+  pgdata:
+  redisdata:
+  nginx_conf_state:
+  modsec_rules:
+  crowdsec_data:
+  crowdsec_config:
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nsp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-nsp}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks: [persist, control]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:?set REDIS_PASSWORD}"]
+    volumes:
+      - redisdata:/data
+    networks: [persist, control]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/docker/Dockerfile.api
+    environment:
+      HTTP_ADDR: ":8081"
+      DATABASE_URL: postgres://${POSTGRES_USER:-nsp}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-nsp}?sslmode=disable
+      REDIS_ADDR: redis:6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET}
+      BOOTSTRAP_TOKEN: ${BOOTSTRAP_TOKEN:?set BOOTSTRAP_TOKEN}
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost:8080}
+      CONFIG_AGENT_URL: http://nginx:8090
+      CONFIG_AGENT_TOKEN: ${CONFIG_AGENT_TOKEN:?set CONFIG_AGENT_TOKEN}
+      NGINX_STAGING_DIR: /var/lib/nsp/staging
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      CERTS_DIR: /data/certs
+      ACME_WEBROOT: /var/lib/nsp/acme-www
+      ACME_ACCOUNT_DIR: /var/lib/nsp/acme
+      ACME_EMAIL: ${ACME_EMAIL:-admin@example.com}
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:-}
+      ACME_USE_MOCK_DNS: ${ACME_USE_MOCK_DNS:-false}
+      MODSEC_AUDIT_LOG: /data/logs/nginx/modsec_audit.log
+      MODSEC_DIR: /var/lib/nsp/modsec
+      MODSEC_CRS_VERSION_FILE: /var/lib/nsp/modsec/crs-version.txt
+      CROWDSEC_LAPI_URL: http://crowdsec:8080
+      CROWDSEC_BOUNCER_KEY: ${CROWDSEC_BOUNCER_KEY:?set CROWDSEC_BOUNCER_KEY}
+      CROWDSEC_AGENT_URL: http://crowdsec:8091
+      CROWDSEC_AGENT_TOKEN: ${CONFIG_AGENT_TOKEN:?set CONFIG_AGENT_TOKEN}
+      IDS_FAIL_OPEN: ${IDS_FAIL_OPEN:-false}
+    volumes:
+      - nginx_conf_state:/var/lib/nsp
+      - modsec_rules:/var/lib/nsp/modsec
+      # NPM-style host-visible logs + conf + TLS material
+      - ./data/logs:/data/logs
+      - ./data/nginx:/data/nginx
+      - ./data/certs:/data/certs
+      # Compat: existing DB/conf paths under /var/lib/nsp/certs
+      - ./data/certs:/var/lib/nsp/certs
+    networks: [control, frontend]
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nginx:
+        condition: service_healthy
+      crowdsec:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8081/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  crowdsec:
+    build:
+      context: ..
+      dockerfile: deploy/docker/Dockerfile.crowdsec
+    environment:
+      COLLECTIONS: "crowdsecurity/nginx crowdsecurity/http-cve"
+      GID: "0"
+      # Lab/self-hosted: Central API / hub CDN 403 olabiliyor; LAPI yerel çalışır
+      DISABLE_ONLINE_API: "true"
+      NO_HUB_UPGRADE: "true"
+      BOUNCER_KEY_nsp: ${CROWDSEC_BOUNCER_KEY:?set CROWDSEC_BOUNCER_KEY}
+      CUSTOM_HOSTNAME: nsp-crowdsec
+      CROWDSEC_AGENT_TOKEN: ${CONFIG_AGENT_TOKEN:?set CONFIG_AGENT_TOKEN}
+    volumes:
+      - ./data/logs/nginx:/data/logs/nginx:ro
+      - ./data/logs/crowdsec:/var/log/crowdsec
+      - ./data/crowdsec/overrides:/nsp-overrides
+      - crowdsec_data:/var/lib/crowdsec/data
+      - crowdsec_config:/etc/crowdsec
+      - ./crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+    networks: [data, control]
+    healthcheck:
+      test: ["CMD", "cscli", "version"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 90s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/docker/Dockerfile.web
+    ports:
+      - "${WEB_PORT:-18080}:80"
+    networks: [frontend]
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 128M
+
+  nginx:
+    build:
+      context: ..
+      dockerfile: deploy/docker/Dockerfile.nginx
+    environment:
+      CONFIG_AGENT_TOKEN: ${CONFIG_AGENT_TOKEN:?set CONFIG_AGENT_TOKEN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx_conf_state:/var/lib/nsp
+      - modsec_rules:/var/lib/nsp/modsec
+      - ./data/logs:/data/logs
+      - ./data/nginx:/data/nginx
+      - ./data/certs:/data/certs
+      - ./data/certs:/var/lib/nsp/certs
+    networks: [data, control]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8090/health && curl -fsS http://127.0.0.1/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 15
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G

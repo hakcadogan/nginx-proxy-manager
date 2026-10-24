@@ -1,0 +1,16 @@
+# REQ-IDS-017 — CrowdSec + local agent for scenario/profile overrides (no Docker socket)
+ARG CS_IMAGE=crowdsecurity/crowdsec:v1.6.5
+
+FROM golang:1.24-alpine AS agentbuild
+WORKDIR /src
+COPY apps/crowdsec-agent/go.mod ./
+COPY apps/crowdsec-agent/ ./
+RUN CGO_ENABLED=0 GOOS=linux go build -o /out/crowdsec-agent ./cmd/agent
+
+FROM ${CS_IMAGE}
+USER root
+COPY --from=agentbuild /out/crowdsec-agent /usr/local/bin/crowdsec-agent
+COPY deploy/crowdsec/docker-entrypoint-nsp.sh /docker-entrypoint-nsp.sh
+RUN chmod +x /docker-entrypoint-nsp.sh /usr/local/bin/crowdsec-agent
+EXPOSE 8080 8091
+ENTRYPOINT ["/docker-entrypoint-nsp.sh"]

@@ -1,0 +1,9 @@
+# REQ-IDS-002 — nginx access log acquisition (NPM-style /data/logs/nginx)
+# Access only under proxy_host/; per-host error logs live in proxy_host_error/
+# and must not be fed to the nginx access parser (false scenarios).
+filenames:
+  - /data/logs/nginx/proxy_host/*.log
+  - /data/logs/nginx/proxy_host/*.ssl.log
+  - /data/logs/nginx/fallback_access.log
+labels:
+  type: nginx
