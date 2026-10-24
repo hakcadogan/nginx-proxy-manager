@@ -24,6 +24,7 @@ docker compose up --build -d
 - Yönetim paneli: http://localhost:28080 (`WEB_PORT`, varsayılan 28080)  
 - Veri düzlemi Nginx: http://localhost:8088  
 - İlk giriş: panelde bootstrap (`.env` içindeki `BOOTSTRAP_TOKEN`) + admin e-posta/parola (min 12 karakter)
+- Saat dilimi: `.env` içinde `TZ=Europe/Istanbul` (nginx access/error log `$time_local`; API JSON zamanları UTC RFC3339 kalır, panel tarayıcı yerel saatine çevirir)
 
 ```bash
 # compose, repo kökündeki .env ile:

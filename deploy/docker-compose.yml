@@ -20,6 +20,8 @@ services:
   db:
     image: postgres:16-alpine
     environment:
+      TZ: ${TZ:-Europe/Istanbul}
+      PGTZ: ${TZ:-Europe/Istanbul}
       POSTGRES_USER: ${POSTGRES_USER:-nsp}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB:-nsp}
@@ -40,6 +42,8 @@ services:
 
   redis:
     image: redis:7-alpine
+    environment:
+      TZ: ${TZ:-Europe/Istanbul}
     command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:?set REDIS_PASSWORD}"]
     volumes:
       - redisdata:/data
@@ -61,6 +65,7 @@ services:
       context: ..
       dockerfile: deploy/docker/Dockerfile.api
     environment:
+      TZ: ${TZ:-Europe/Istanbul}
       HTTP_ADDR: ":8081"
       DATABASE_URL: postgres://${POSTGRES_USER:-nsp}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-nsp}?sslmode=disable
       REDIS_ADDR: redis:6379
@@ -123,6 +128,7 @@ services:
       context: ..
       dockerfile: deploy/docker/Dockerfile.crowdsec
     environment:
+      TZ: ${TZ:-Europe/Istanbul}
       COLLECTIONS: "crowdsecurity/nginx crowdsecurity/http-cve"
       GID: "0"
       # Lab/self-hosted: Central API / hub CDN 403 olabiliyor; LAPI yerel çalışır
@@ -156,6 +162,8 @@ services:
     build:
       context: ..
       dockerfile: deploy/docker/Dockerfile.web
+    environment:
+      TZ: ${TZ:-Europe/Istanbul}
     ports:
       - "${WEB_PORT:-18080}:80"
     networks: [frontend]
@@ -174,6 +182,7 @@ services:
       context: ..
       dockerfile: deploy/docker/Dockerfile.nginx
     environment:
+      TZ: ${TZ:-Europe/Istanbul}
       CONFIG_AGENT_TOKEN: ${CONFIG_AGENT_TOKEN:?set CONFIG_AGENT_TOKEN}
     ports:
       - "80:80"
