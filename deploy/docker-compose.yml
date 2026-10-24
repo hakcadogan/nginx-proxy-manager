@@ -1,5 +1,5 @@
 # REQ-OPS-001..006 — control plane vs data plane, volumes, healthchecks, no Docker socket
-# Data layout (NPM-style): ./data/{logs,nginx,certs} bind-mounted — see data/README.md
+# Data layout (NPM-style): ../data/{logs,nginx,certs} (repo root) — see ../data/README.md
 name: nsp
 
 networks:
@@ -94,12 +94,12 @@ services:
     volumes:
       - nginx_conf_state:/var/lib/nsp
       - modsec_rules:/var/lib/nsp/modsec
-      # NPM-style host-visible logs + conf + TLS material
-      - ./data/logs:/data/logs
-      - ./data/nginx:/data/nginx
-      - ./data/certs:/data/certs
+      # NPM-style host-visible logs + conf + TLS material (repo root data/)
+      - ../data/logs:/data/logs
+      - ../data/nginx:/data/nginx
+      - ../data/certs:/data/certs
       # Compat: existing DB/conf paths under /var/lib/nsp/certs
-      - ./data/certs:/var/lib/nsp/certs
+      - ../data/certs:/var/lib/nsp/certs
     networks: [control, frontend]
     depends_on:
       db:
@@ -138,9 +138,9 @@ services:
       CUSTOM_HOSTNAME: nsp-crowdsec
       CROWDSEC_AGENT_TOKEN: ${CONFIG_AGENT_TOKEN:?set CONFIG_AGENT_TOKEN}
     volumes:
-      - ./data/logs/nginx:/data/logs/nginx:ro
-      - ./data/logs/crowdsec:/var/log/crowdsec
-      - ./data/crowdsec/overrides:/nsp-overrides
+      - ../data/logs/nginx:/data/logs/nginx:ro
+      - ../data/logs/crowdsec:/var/log/crowdsec
+      - ../data/crowdsec/overrides:/nsp-overrides
       - crowdsec_data:/var/lib/crowdsec/data
       - crowdsec_config:/etc/crowdsec
       - ./crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
@@ -190,10 +190,10 @@ services:
     volumes:
       - nginx_conf_state:/var/lib/nsp
       - modsec_rules:/var/lib/nsp/modsec
-      - ./data/logs:/data/logs
-      - ./data/nginx:/data/nginx
-      - ./data/certs:/data/certs
-      - ./data/certs:/var/lib/nsp/certs
+      - ../data/logs:/data/logs
+      - ../data/nginx:/data/nginx
+      - ../data/certs:/data/certs
+      - ../data/certs:/var/lib/nsp/certs
     networks: [data, control]
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8090/health && curl -fsS http://127.0.0.1/healthz"]

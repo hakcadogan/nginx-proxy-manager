@@ -22,10 +22,9 @@ apps/config-agent/bin/
 *.swp
 .DS_Store
 
-# Runtime data (NPM-style bind mounts under deploy/data)
-deploy/data/**
-!deploy/data/README.md
-data/
+# Runtime data (NPM-style bind mounts at repo root data/)
+data/**
+!data/README.md
 *.log
 deploy/nginx/generated/
 deploy/nginx/staging/

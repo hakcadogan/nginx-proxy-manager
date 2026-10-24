@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# NPM-style data dirs (bind-mounted from host ./data)
+# NPM-style data dirs (bind-mounted from host repo-root data/)
 mkdir -p \
   /data/logs/nginx/proxy_host \
   /data/logs/nginx/proxy_host_error \

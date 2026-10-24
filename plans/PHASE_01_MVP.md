@@ -100,7 +100,7 @@
 | Gerçek trafik → `hashicorp/http-echo` | PASS (200 + body) |
 | Invalid conf apply / live preserve | PASS (422, checksum aynı, trafik sürer) |
 | Playwright smoke | PASS (1/1) |
-| `REQ-OBS-002` host bind logs | VERIFIED (`deploy/data/logs/nginx` + `proxy_host/*.log`; panel export yok) |
+| `REQ-OBS-002` host bind logs | VERIFIED (`data/logs/nginx` + `proxy_host/*.log`; panel export yok) |
 
 ## 8. Notlar / risk
 

@@ -156,7 +156,7 @@ Upstream değişiklikleri conf regenerate + reload gerektirir.
 
 Volume’lar: `pgdata`, `redisdata`, `nginx_conf_state` (staging/ACME account), `modsec-rules`, `crowdsec-data`.
 
-Host bind-mounts (NPM tarzı, `deploy/data/`):
+Host bind-mounts (NPM tarzı, repo kökü `data/`):
 
 | Yol | İçerik |
 |-----|--------|

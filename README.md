@@ -25,6 +25,7 @@ docker compose up --build -d
 - Veri düzlemi Nginx: http://localhost:8088  
 - İlk giriş: panelde bootstrap (`.env` içindeki `BOOTSTRAP_TOKEN`) + admin e-posta/parola (min 12 karakter)
 - Saat dilimi: `.env` içinde `TZ=Europe/Istanbul` (nginx access/error log `$time_local`; API JSON zamanları UTC RFC3339 kalır, panel tarayıcı yerel saatine çevirir)
+- Kalıcı veri: repo kökü `data/` (`logs`, `nginx`, `certs`) — compose `deploy/` altından `../data` bağlar
 
 ```bash
 # compose, repo kökündeki .env ile:
