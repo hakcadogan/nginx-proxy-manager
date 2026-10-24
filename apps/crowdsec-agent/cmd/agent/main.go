@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -91,17 +92,28 @@ func main() {
 }
 
 func reloadCrowdSec() (string, error) {
-	// After docker_start exec, PID 1 is crowdsec. Prefer kill -HUP 1.
-	// Avoid pkill: it can race during startup and terminate before handlers are ready.
-	cmd := exec.Command("kill", "-HUP", "1")
-	out, err := cmd.CombinedOutput()
+	// Never blind-HUP PID 1: during boot PID 1 is docker_start.sh; HUP restarts the
+	// entrypoint and drops in-flight agent HTTP (clients see EOF).
+	// pkill -x matches the crowdsec binary only (not crowdsec-agent).
+	out, err := exec.Command("pkill", "-HUP", "-x", "crowdsec").CombinedOutput()
 	if err == nil {
 		return string(out), nil
 	}
-	// Fallback: named process
-	cmd2 := exec.Command("pkill", "-HUP", "-x", "crowdsec")
-	out2, err2 := cmd2.CombinedOutput()
-	return string(out) + string(out2), err2
+	if pid1IsCrowdSec() {
+		out2, err2 := exec.Command("kill", "-HUP", "1").CombinedOutput()
+		return string(out2), err2
+	}
+	// Still booting: overrides are on disk (+ /nsp-overrides); entrypoint re-applies them.
+	return fmt.Sprintf("deferred: crowdsec not ready yet (%v: %s)", err, strings.TrimSpace(string(out))), nil
+}
+
+func pid1IsCrowdSec() bool {
+	b, err := os.ReadFile("/proc/1/cmdline")
+	if err != nil {
+		return false
+	}
+	cmd := string(b)
+	return strings.Contains(cmd, "crowdsec") && !strings.Contains(cmd, "crowdsec-agent") && !strings.Contains(cmd, "docker_start")
 }
 
 func auth(token string, next http.HandlerFunc) http.HandlerFunc {

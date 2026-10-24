@@ -83,22 +83,43 @@ func (c *Client) ApplyDetection(ctx context.Context, files map[string]string) er
 		return fmt.Errorf("crowdsec agent not configured")
 	}
 	body, _ := json.Marshal(map[string]any{"files": files})
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, strings.TrimRight(c.AgentURL, "/")+"/v1/apply", bytes.NewReader(body))
-	if err != nil {
-		return err
+	var lastErr error
+	for attempt := 0; attempt < 3; attempt++ {
+		if attempt > 0 {
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-time.After(time.Duration(attempt) * 2 * time.Second):
+			}
+		}
+		req, err := http.NewRequestWithContext(ctx, http.MethodPost, strings.TrimRight(c.AgentURL, "/")+"/v1/apply", bytes.NewReader(body))
+		if err != nil {
+			return err
+		}
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("X-Agent-Token", c.AgentToken)
+		hc := c.httpClient()
+		// Detection apply may HUP CrowdSec; allow longer than LAPI polls.
+		if hc.Timeout > 0 && hc.Timeout < 30*time.Second {
+			hc = &http.Client{Timeout: 30 * time.Second}
+		}
+		res, err := hc.Do(req)
+		if err != nil {
+			lastErr = err
+			// EOF / connection reset: agent or wrapper restarted mid-apply — retry.
+			if strings.Contains(err.Error(), "EOF") || strings.Contains(err.Error(), "connection reset") {
+				continue
+			}
+			return err
+		}
+		raw, _ := io.ReadAll(res.Body)
+		res.Body.Close()
+		if res.StatusCode >= 300 {
+			return fmt.Errorf("crowdsec agent %d: %s", res.StatusCode, truncate(string(raw), 200))
+		}
+		return nil
 	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("X-Agent-Token", c.AgentToken)
-	res, err := c.httpClient().Do(req)
-	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-	raw, _ := io.ReadAll(res.Body)
-	if res.StatusCode >= 300 {
-		return fmt.Errorf("crowdsec agent %d: %s", res.StatusCode, truncate(string(raw), 200))
-	}
-	return nil
+	return lastErr
 }
 
 // AgentPing checks the local agent health endpoint.
