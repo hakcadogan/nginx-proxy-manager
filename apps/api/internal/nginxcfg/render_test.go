@@ -8,6 +8,28 @@ import (
 	"github.com/nginx-proxy-waf/api/internal/models"
 )
 
+func TestDefaultServersRejectUnmatchedHost(t *testing.T) {
+	out, _, err := Render(RenderInput{
+		Hosts: []models.ProxyHost{{
+			PrimaryDomain: "app.example.com", UpstreamScheme: "http",
+			UpstreamHost: "backend.example.com", UpstreamPort: 80, PathPrefix: "/",
+			Enabled: true, ListenHTTP: true,
+		}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(out, "listen 80 default_server;") {
+		t.Fatal("missing HTTP default_server")
+	}
+	if !strings.Contains(out, "listen 443 ssl default_server;") {
+		t.Fatal("missing HTTPS default_server")
+	}
+	if !strings.Contains(out, "ssl_reject_handshake on;") {
+		t.Fatal("missing ssl_reject_handshake for bare-IP / unknown Host")
+	}
+}
+
 func TestRenderBasicHost(t *testing.T) {
 	profileID := uuid.New()
 	in := RenderInput{

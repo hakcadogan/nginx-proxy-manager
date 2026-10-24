@@ -117,6 +117,15 @@ http {
         }
 {{.ErrorPages}}{{.CustomServerDead}}    }
 
+    # Unmatched Host / bare IP on 443 must not fall through to the first TLS vhost.
+    server {
+        listen 443 ssl default_server;
+        server_name _;
+        access_log {{.FallbackAccessLog}} nsp_main;
+        error_log {{.FallbackErrorLog}} warn;
+        ssl_reject_handshake on;
+    }
+
     # Per-host proxy servers (NPM-style proxy_host/)
     include {{.ProxyHostInclude}};
 {{.CustomHTTP}}}
