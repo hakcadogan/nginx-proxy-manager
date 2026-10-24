@@ -105,12 +105,15 @@ http {
         modsecurity on;
         modsecurity_rules_file /etc/nginx/modsec/engine-On.conf;
         location = /healthz {
+            # Docker/compose healthcheck uses Host: 127.0.0.1 — CRS 920350 must not fire.
+            modsecurity off;
             access_log off;
             return 200 'ok';
             add_header Content-Type text/plain;
         }
 {{if .ACMEWebRoot}}
         location ^~ /.well-known/acme-challenge/ {
+            modsecurity off;
             root {{.ACMEWebRoot}};
             default_type text/plain;
         }
@@ -131,6 +134,12 @@ http {
         ssl_protocols       TLSv1.2 TLSv1.3;
         modsecurity on;
         modsecurity_rules_file /etc/nginx/modsec/engine-On.conf;
+        location = /healthz {
+            modsecurity off;
+            access_log off;
+            return 200 'ok';
+            add_header Content-Type text/plain;
+        }
         location / {
             return 444;
         }

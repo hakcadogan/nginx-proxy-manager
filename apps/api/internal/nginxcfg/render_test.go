@@ -34,6 +34,10 @@ func TestDefaultServersRejectUnmatchedHost(t *testing.T) {
 	if strings.Contains(out, "ssl_reject_handshake on;") {
 		t.Fatal("ssl_reject_handshake skips WAF; use snakeoil + modsecurity instead")
 	}
+	// healthz must disable ModSec (Host: 127.0.0.1 → CRS 920350).
+	if !strings.Contains(out, "location = /healthz") || !strings.Contains(out, "modsecurity off;") {
+		t.Fatal("healthz location must set modsecurity off")
+	}
 }
 
 func TestRenderBasicHost(t *testing.T) {
