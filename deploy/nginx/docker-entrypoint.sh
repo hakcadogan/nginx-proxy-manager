@@ -30,6 +30,22 @@ find /data/certs -name 'privkey.pem' -exec chmod 0600 {} \; 2>/dev/null || true
 mkdir -p /var/log
 ln -sfn /data/logs/nginx /var/log/nginx
 
+# Snakeoil cert for HTTPS default_server (bare IP / unknown Host + WAF).
+mkdir -p /var/lib/nsp/certs/_default /data/certs/_default
+if [ ! -f /var/lib/nsp/certs/_default/fullchain.pem ] || [ ! -f /var/lib/nsp/certs/_default/privkey.pem ]; then
+  if command -v openssl >/dev/null 2>&1; then
+    openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
+      -keyout /var/lib/nsp/certs/_default/privkey.pem \
+      -out /var/lib/nsp/certs/_default/fullchain.pem \
+      -subj "/CN=nsp-default" >/dev/null 2>&1 || true
+  fi
+fi
+if [ -f /var/lib/nsp/certs/_default/fullchain.pem ]; then
+  cp -a /var/lib/nsp/certs/_default/. /data/certs/_default/ 2>/dev/null || true
+  chmod 0644 /var/lib/nsp/certs/_default/fullchain.pem /data/certs/_default/fullchain.pem 2>/dev/null || true
+  chmod 0600 /var/lib/nsp/certs/_default/privkey.pem /data/certs/_default/privkey.pem 2>/dev/null || true
+fi
+
 # Ensure overlay exists before first nginx -t
 if [ ! -f /var/lib/nsp/modsec/overlay.conf ]; then
   printf '%s\n' '# nsp overlay' > /var/lib/nsp/modsec/overlay.conf

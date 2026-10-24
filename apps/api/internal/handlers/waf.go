@@ -218,6 +218,10 @@ func (h *WAFHandler) CreateException(w http.ResponseWriter, r *http.Request) {
 		"rule_id": created.RuleID, "path_prefix": created.PathPrefix, "argument": created.Argument,
 		"host_id": created.HostID, "global_disable": nginxcfg.ExceptionIsGlobalDisable(created),
 	})
+	// Overlay is only live after nginx apply (ModSec Include reload).
+	if h.ApplyHook != nil {
+		h.ApplyHook(r)
+	}
 	WriteJSON(w, http.StatusCreated, created)
 }
 
@@ -235,6 +239,9 @@ func (h *WAFHandler) DeleteException(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeAudit(h.Store, r, "waf.exception_delete", "waf_exception", id.String(), nil)
+	if h.ApplyHook != nil {
+		h.ApplyHook(r)
+	}
 	WriteJSON(w, http.StatusOK, map[string]string{"status": "deleted"})
 }
 

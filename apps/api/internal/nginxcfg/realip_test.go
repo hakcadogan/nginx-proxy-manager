@@ -66,8 +66,9 @@ func TestRenderAdvancedHost(t *testing.T) {
 			t.Fatalf("missing %q in:\n%s", want, out)
 		}
 	}
-	if strings.Contains(out, "listen 443") {
-		t.Fatal("https listen should be omitted")
+	// default_server catch-all may listen 443; host vhost must not.
+	if strings.Contains(out, "listen 443 ssl;") {
+		t.Fatal("https listen should be omitted on host without TLS")
 	}
 }
 

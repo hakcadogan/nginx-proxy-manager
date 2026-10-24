@@ -11,7 +11,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /out/config-agent ./cmd/agent
 FROM ${CRS_IMAGE}
 USER root
 # tzdata: $time_local / ModSec audit için TZ=Europe/Istanbul (REQ-OPS-001)
-RUN apk add --no-cache curl ca-certificates tzdata \
+# openssl: HTTPS default_server snakeoil (_default cert)
+RUN apk add --no-cache curl ca-certificates tzdata openssl \
     && mkdir -p /etc/nginx/modsec /var/lib/nsp/modsec /var/lib/nsp/staging /var/lib/nsp/last-good \
          /data/logs/nginx/proxy_host /data/logs/nginx/proxy_host_error \
          /data/nginx/proxy_host /data/nginx/custom /data/certs \

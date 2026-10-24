@@ -259,6 +259,7 @@ func RenderModSecOverlay(in WAFRenderInput) (string, error) {
 				continue
 			}
 			if last {
+				// Chain starter already has pass/nolog; last rule only carries ctl.
 				b.WriteString(fmt.Sprintf(
 					`SecRule %s "%s" \
     "t:none,ctl:ruleRemoveById=%s"`+"\n",

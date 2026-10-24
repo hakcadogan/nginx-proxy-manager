@@ -28,7 +28,12 @@ func New(cfg config.Config, store *db.Store, sessions *auth.SessionStore, log *s
 		ApplyHook: cfgH.ApplyNow,
 	}
 	upH := &handlers.UpstreamHandler{Store: store, ApplyHook: cfgH.ApplyNow}
-	wafH := &handlers.WAFHandler{Store: store, ModsecDir: cfg.ModsecDir}
+	wafH := &handlers.WAFHandler{
+		Store: store, ModsecDir: cfg.ModsecDir,
+		ApplyHook: func(r *http.Request) {
+			_ = cfgH.ApplyNow(r.Context())
+		},
+	}
 	csClient := &crowdsec.Client{
 		BaseURL: cfg.CrowdSecLAPIURL, BouncerKey: cfg.CrowdSecBouncerKey,
 		AgentURL: cfg.CrowdSecAgentURL, AgentToken: cfg.CrowdSecAgentToken,

@@ -25,8 +25,14 @@ func TestDefaultServersRejectUnmatchedHost(t *testing.T) {
 	if !strings.Contains(out, "listen 443 ssl default_server;") {
 		t.Fatal("missing HTTPS default_server")
 	}
-	if !strings.Contains(out, "ssl_reject_handshake on;") {
-		t.Fatal("missing ssl_reject_handshake for bare-IP / unknown Host")
+	if !strings.Contains(out, "modsecurity_rules_file /etc/nginx/modsec/engine-On.conf;") {
+		t.Fatal("default_server must enable WAF for bare-IP probes")
+	}
+	if !strings.Contains(out, "/var/lib/nsp/certs/_default/fullchain.pem") {
+		t.Fatal("HTTPS default_server needs snakeoil cert path")
+	}
+	if strings.Contains(out, "ssl_reject_handshake on;") {
+		t.Fatal("ssl_reject_handshake skips WAF; use snakeoil + modsecurity instead")
 	}
 }
 

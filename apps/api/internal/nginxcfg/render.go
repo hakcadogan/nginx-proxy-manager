@@ -101,6 +101,9 @@ http {
         server_name _;
 		access_log {{.FallbackAccessLog}} nsp_main;
         error_log {{.FallbackErrorLog}} warn;
+        # Bare IP / unknown Host still run WAF (e.g. /.env → 403) before close.
+        modsecurity on;
+        modsecurity_rules_file /etc/nginx/modsec/engine-On.conf;
         location = /healthz {
             access_log off;
             return 200 'ok';
@@ -117,13 +120,20 @@ http {
         }
 {{.ErrorPages}}{{.CustomServerDead}}    }
 
-    # Unmatched Host / bare IP on 443 must not fall through to the first TLS vhost.
+    # Unmatched Host / bare IP on 443: do not serve first TLS vhost; still run WAF.
     server {
         listen 443 ssl default_server;
         server_name _;
         access_log {{.FallbackAccessLog}} nsp_main;
         error_log {{.FallbackErrorLog}} warn;
-        ssl_reject_handshake on;
+        ssl_certificate     /var/lib/nsp/certs/_default/fullchain.pem;
+        ssl_certificate_key /var/lib/nsp/certs/_default/privkey.pem;
+        ssl_protocols       TLSv1.2 TLSv1.3;
+        modsecurity on;
+        modsecurity_rules_file /etc/nginx/modsec/engine-On.conf;
+        location / {
+            return 444;
+        }
     }
 
     # Per-host proxy servers (NPM-style proxy_host/)
