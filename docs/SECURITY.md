@@ -67,6 +67,7 @@
 
 - Yeni hostlarda WAF default: **Detection Only** (false-positive öğrenme), production checklist’te Blocking’e geçiş adımı (`REQ-QA-010`).
 - WAF exception’lar auditlenir; geniş `remove by tag` dikkatle.
+- WAF IP allowlist tüm ModSec’i o istemci için kapatır (`ruleEngine=Off`) — dar tutun; auditlenir; IDS allowlist ile karıştırılmamalı.
 - CrowdSec allowlist kötüye kullanımına karşı Admin/Operator ayrımı.
 - Güvenlik olaylarında hassas payload **maskelenir** (`REQ-WAF-010`).
 

@@ -123,6 +123,7 @@ Upstream değişiklikleri conf regenerate + reload gerektirir.
 - OWASP CRS: dosya volume’da; paranoia ve exclusions DB’den üretilen overlay conf.
 - Modlar: `DetectionOnly` vs `On` (blocking).
 - Audit log → parser → `security_events` (maskeleme ile).
+- IP allowlist (`data`/settings → `modsec/ip-allowlist.txt`): `REMOTE_ADDR` eşleşince `ctl:ruleEngine=Off` (CRS bypass; IDS deny ayrı).
 
 **Risk:** Connector/nginx ABI uyumsuzluğu imaj build’ini kırabilir; CI’da imaj smoke zorunlu.
 

@@ -73,6 +73,11 @@ const resources = {
         "Bu ifadeler User-Agent içinde geçiyorsa NSP bad-bot kuralı (1000100) atlanır. Tam CRS kapatılmaz. CrowdSec IP ban’ı için IDS allowlist kullanın.",
       saveUAAllowlist: "UA allowlist kaydet",
       uaAllowlistSaved: "UA allowlist kaydedildi ve uygulandı",
+      ipAllowlistTitle: "WAF IP allowlist",
+      ipAllowlistHint:
+        "Bu IP/CIDR’ler ModSecurity’yi tamamen atlar (ctl:ruleEngine=Off). Satır başına bir adres. CrowdSec/nginx deny için IDS allowlist kullanın. Gerçek istemci IP için trusted proxies ayarlı olmalı.",
+      saveIPAllowlist: "IP allowlist kaydet",
+      ipAllowlistSaved: "WAF IP allowlist kaydedildi ve uygulandı",
       modsecGlobalTitle: "ModSecurity global ayarlar",
       modsecGlobalHint:
         "Allowlist alanlar (SecAuditEngine, debug, body…). SecRuleEngine motor modundan yönetilir — burada yok.",
@@ -252,9 +257,22 @@ const resources = {
       bodyInspectionOff:
         "Request body inceleme kapalı (SecRequestBodyAccess Off) — CRS SQLi/XSS/LFI (phase 2) çalışmaz; Gelişmiş sekmesinden On yapın.",
       bodyInspectionHint: "SecRequestBodyAccess",
-      hostWafPolicy: "Host WAF politikası",
+      globalWafPolicy: "Global politika",
+      hostWafPolicy: "Host politika",
+      hostWafPolicyHint:
+        "Tüm hostlar listelenir. Kaydetmek host’a özel politika oluşturur/günceller; yoksa global politika geçerli kalır.",
       selectHost: "Host seç",
-      saveHostPolicy: "Host politikasını kaydet",
+      saveHostPolicy: "Kaydet",
+      host: "Host",
+      setting: "Ayar",
+      value: "Değer",
+      inheritsGlobal: "Global’den miras",
+      hostOverride: "Host özel",
+      yes: "Evet",
+      no: "Hayır",
+      editException: "İstisna düzenle",
+      saveException: "İstisnayı kaydet",
+      exceptionEnabled: "İstisna aktif",
       globalExceptionWarnTitle: "Global kural kapatma",
       globalExceptionWarnBody:
         "Host/path/argüman boşsa kural tüm sitelerde kapanır. Mümkünse kapsamı daraltın.",
@@ -467,6 +485,8 @@ const resources = {
         "Yalnızca SecRule/SecAction/SecMarker/Remove* satırları. Include yasak; validate + apply sonrası yüklenir. Engelleme için deny kullanın.",
       helpUaAllowlist:
         "User-Agent alt dizgileri NSP bad-bot kuralını (1000100) atlar; CRS’i kapatmaz. IP ban için IDS allowlist kullanın.",
+      helpIpAllowlist:
+        "Allowlist IP/CIDR için ModSecurity kapatılır (ruleEngine=Off). IDS/nginx deny ayrıdır. Trusted proxies olmadan REMOTE_ADDR proxy IP olabilir.",
       helpExceptions: "CRS false-positive için kural/tag istisnaları. Geniş remove by tag dikkatli kullanın.",
       helpHostWaf: "Host bazlı WAF motoru ve paranoia; global politikayı geçersiz kılabilir.",
       helpAttackReport: "WAF olaylarından türetilmiş saldırı özeti (kural/IP).",
@@ -564,6 +584,11 @@ const resources = {
         "If the User-Agent contains any of these phrases, the NSP bad-bot rule (1000100) is skipped. This does not disable CRS. For CrowdSec IP bans use the IDS allowlist.",
       saveUAAllowlist: "Save UA allowlist",
       uaAllowlistSaved: "UA allowlist saved and applied",
+      ipAllowlistTitle: "WAF IP allowlist",
+      ipAllowlistHint:
+        "These IPs/CIDRs skip ModSecurity entirely (ctl:ruleEngine=Off). One address per line. Use IDS allowlist for CrowdSec/nginx deny. Configure trusted proxies so REMOTE_ADDR is the real client IP.",
+      saveIPAllowlist: "Save IP allowlist",
+      ipAllowlistSaved: "WAF IP allowlist saved and applied",
       modsecGlobalTitle: "ModSecurity global settings",
       modsecGlobalHint:
         "Allowlisted fields (SecAuditEngine, debug, body…). SecRuleEngine is controlled by engine mode — not here.",
@@ -743,9 +768,22 @@ const resources = {
       bodyInspectionOff:
         "Request body inspection off (SecRequestBodyAccess Off) — CRS SQLi/XSS/LFI (phase 2) will not run; set On under Advanced.",
       bodyInspectionHint: "SecRequestBodyAccess",
-      hostWafPolicy: "Host WAF policy",
+      globalWafPolicy: "Global policy",
+      hostWafPolicy: "Host policy",
+      hostWafPolicyHint:
+        "All hosts are listed. Saving creates/updates a per-host policy; otherwise the global policy applies.",
       selectHost: "Select host",
-      saveHostPolicy: "Save host policy",
+      saveHostPolicy: "Save",
+      host: "Host",
+      setting: "Setting",
+      value: "Value",
+      inheritsGlobal: "Inherits global",
+      hostOverride: "Host override",
+      yes: "Yes",
+      no: "No",
+      editException: "Edit exception",
+      saveException: "Save exception",
+      exceptionEnabled: "Exception enabled",
       globalExceptionWarnTitle: "Global rule disable",
       globalExceptionWarnBody:
         "Empty host/path/argument disables the rule everywhere. Narrow the scope when possible.",
@@ -957,6 +995,8 @@ const resources = {
         "Only SecRule/SecAction/SecMarker/Remove* lines. Include is forbidden; loaded after validate + apply. Use deny to block.",
       helpUaAllowlist:
         "User-Agent substrings skip the NSP bad-bot rule (1000100); they do not disable CRS. Use IDS allowlist for IP bans.",
+      helpIpAllowlist:
+        "Allowlisted IP/CIDR disables ModSecurity for that client (ruleEngine=Off). IDS/nginx deny is separate. Without trusted proxies, REMOTE_ADDR may be the proxy IP.",
       helpExceptions: "CRS false-positive exceptions by rule/tag. Use broad remove-by-tag carefully.",
       helpHostWaf: "Per-host WAF engine and paranoia; may override the global policy.",
       helpAttackReport: "Attack summary derived from WAF events (rule/IP).",

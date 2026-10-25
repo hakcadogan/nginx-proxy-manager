@@ -14,15 +14,69 @@ type CustomRulesBundle struct {
 
 const maxCustomRulesBytes = 64 * 1024
 
+// Stable tag for the NSP .env hard-deny custom rule. Exceptions target this tag
+// (not a fixed rule id — operators may renumber custom rules).
+const NSPTagBlockDotenv = "nsp/block-dotenv"
+
+// DefaultGlobalCustomRules is a safe starter snippet (explicit deny; not CRS anomaly scoring).
+// id is an example only; exceptions use tag nsp/block-dotenv (and/or discovered ids).
+const DefaultGlobalCustomRules = `SecRule REQUEST_URI|ARGS|REQUEST_HEADERS "@rx (?i)(?:^|[/?])\.env(?:$|[/?&#])" \
+    "id:1100500,phase:1,deny,status:403,log,msg:'NSP block .env access',tag:'` + NSPTagBlockDotenv + `'"`
+
 var (
 	customAllowedStart = regexp.MustCompile(`^(SecRule|SecAction|SecMarker|SecRuleRemoveById|SecRuleRemoveByTag)\b`)
 	// Word-boundary on lua so benign words (e.g. evaluate) are not rejected.
 	customForbidden = regexp.MustCompile(`(?i)(\bInclude\b|\bIncludeOptional\b|\bSecRemoteRules\b|\bSecUploadDir\b|\bSecTmpDir\b|\bSecDataDir\b|exec:|\blua\b|\$\{)`)
+	customRuleIDRe  = regexp.MustCompile(`(?i)\bid:([0-9]{1,10})\b`)
+	customEnvHintRe = regexp.MustCompile(`(?i)(?:\\.env|\.env|block-dotenv|dotenv)`)
 )
 
-// DefaultGlobalCustomRules is a safe starter snippet (explicit deny; not CRS anomaly scoring).
-const DefaultGlobalCustomRules = `SecRule REQUEST_URI|ARGS|REQUEST_HEADERS "@rx (?i)(?:^|[/?])\.env(?:$|[/?&#])" \
-    "id:1100500,phase:1,deny,status:403,log,msg:'NSP block .env access'"`
+// CustomRuleIDsMatchingEnv returns numeric ids from custom SecRules that look like
+// .env blockers (by operator text / msg / tag). Empty if none — tag-based remove still applies.
+func CustomRuleIDsMatchingEnv(bundle CustomRulesBundle) []string {
+	var texts []string
+	if g := strings.TrimSpace(bundle.Global); g != "" {
+		texts = append(texts, g)
+	}
+	for _, t := range bundle.Hosts {
+		if s := strings.TrimSpace(t); s != "" {
+			texts = append(texts, s)
+		}
+	}
+	seen := map[string]bool{}
+	var out []string
+	for _, body := range texts {
+		var cur strings.Builder
+		flush := func() {
+			part := strings.TrimSpace(cur.String())
+			cur.Reset()
+			if part == "" || !strings.HasPrefix(part, "SecRule") {
+				return
+			}
+			if !customEnvHintRe.MatchString(part) {
+				return
+			}
+			for _, m := range customRuleIDRe.FindAllStringSubmatch(part, -1) {
+				id := m[1]
+				if seen[id] {
+					continue
+				}
+				seen[id] = true
+				out = append(out, id)
+			}
+		}
+		for _, raw := range strings.Split(body, "\n") {
+			line := strings.TrimSpace(raw)
+			if strings.HasPrefix(line, "SecRule") {
+				flush()
+			}
+			cur.WriteString(raw)
+			cur.WriteByte('\n')
+		}
+		flush()
+	}
+	return out
+}
 
 // ValidateCustomRulesText allows only SecRule/SecAction/SecMarker/Remove* lines (REQ-CFG-008).
 // Multi-line rules with trailing `\` continuations are supported (including mid-quote splits).

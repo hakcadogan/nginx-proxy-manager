@@ -90,10 +90,11 @@ Bu belge uygulama öncesi **sözleşme iskeletidir**. Kesin şemalar OpenAPI’d
 | Method | Path | Aşama | REQ |
 |--------|------|-------|-----|
 | GET/PATCH | `/waf/policies` | P04 | REQ-API-007 |
-| GET/POST/DELETE | `/waf/exceptions` | P04 | REQ-WAF-007 |
+| GET/POST/PATCH/DELETE | `/waf/exceptions` | P04 | REQ-WAF-007 | PATCH `{id}`: rule_id, path, arg, reason, host_id, enabled |
 | GET | `/waf/crs-rules` | P04 | REQ-WAF-007 | CRS katalog; `q`/`category`/`enabled`/`page` |
 | PATCH | `/waf/crs-rules/{id}` | P04 | REQ-WAF-007 | `{ "enabled": true\|false }` → SecRuleRemoveById |
 | GET/PUT | `/waf/ua-allowlist` | P04 | REQ-RATE-010 | `{ patterns: string[] }` — bad-bot kuralı istisnası |
+| GET/PUT | `/waf/ip-allowlist` | P06 | REQ-WAF-019 | `{ entries: string[] }` — IP/CIDR; ModSec `ruleEngine=Off` |
 | GET/PUT | `/waf/modsec-settings` | P04 | REQ-WAF-017 | allowlist audit/debug/body ayarları |
 | GET/PUT | `/waf/custom-rules` | P04 | REQ-WAF-018 | `{ global, hosts: { host_id: text } }` |
 | GET | `/waf/events` | P04 | REQ-WAF-009 |

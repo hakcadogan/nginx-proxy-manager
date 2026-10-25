@@ -25,3 +25,14 @@ func TestValidateCustomRulesRejectBareLine(t *testing.T) {
 		t.Fatal("expected bare action line rejected")
 	}
 }
+
+func TestCustomRuleIDsMatchingEnvDiscoversRenumberedID(t *testing.T) {
+	bundle := CustomRulesBundle{
+		Global: `SecRule REQUEST_URI "@rx (?i)\.env" \
+    "id:1199999,phase:1,deny,status:403,log,msg:'block env',tag:'nsp/block-dotenv'"`,
+	}
+	ids := CustomRuleIDsMatchingEnv(bundle)
+	if len(ids) != 1 || ids[0] != "1199999" {
+		t.Fatalf("ids=%v want [1199999]", ids)
+	}
+}

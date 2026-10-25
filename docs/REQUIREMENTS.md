@@ -3,7 +3,7 @@
 **Versiyon:** 1.0.0  
 **Durum:** Planlama (kod yok)  
 **Son güncelleme:** 2026-10-22  
-**Toplam gereksinim:** 147
+**Toplam gereksinim:** 148
 
 Bu belge proje kapsamının **tek kaynağıdır**. Her gereksinimin benzersiz ID’si, aşaması, modülü, bağımlılığı, kabul kriteri ve doğrulama testi vardır. Hiçbir gereksinim plansız bırakılmaz.
 
@@ -132,7 +132,7 @@ Bu belge proje kapsamının **tek kaynağıdır**. Her gereksinimin benzersiz ID
 | REQ-WAF-004 | Blocking modu | P04 | waf | REQ-WAF-002 | VERIFIED | Saldırı 403/blocked | Attack → block E2E |
 | REQ-WAF-005 | Host/global WAF enable | P04 | waf | REQ-WAF-001, REQ-PROXY-001 | VERIFIED | Host bazlı aç/kapa | Config + E2E |
 | REQ-WAF-006 | Paranoia level ayarı | P04 | waf | REQ-WAF-002 | VERIFIED | PL 1–4 uygulanır | Config unit |
-| REQ-WAF-007 | Kural istisnası (rule ID exclude) + CRS katalog aktif/pasif | P04 | waf | REQ-WAF-002 | IMPLEMENTED | Belirli kural atlanır; katalogda SecRuleRemoveById toggle | Exception E2E + CRS list API |
+| REQ-WAF-007 | Kural istisnası (rule ID exclude) + CRS katalog aktif/pasif | P04 | waf | REQ-WAF-002 | IMPLEMENTED | Belirli kural atlanır; katalogda SecRuleRemoveById toggle; PATCH ile düzenleme | Exception E2E + CRS list API |
 | REQ-WAF-008 | Path / argüman bazlı istisna | P04 | waf | REQ-WAF-007 | VERIFIED | Scoped exclusion | Integration |
 | REQ-WAF-009 | Güvenlik olayları listesi | P04 | waf | REQ-OBS-003, REQ-DATA-001 | VERIFIED | Olaylar panoda | API + UI |
 | REQ-WAF-010 | Olay detayı (rule, payload özeti) | P04 | waf | REQ-WAF-009 | VERIFIED | Hassas veri maskeli | Privacy unit |
@@ -144,8 +144,9 @@ Bu belge proje kapsamının **tek kaynağıdır**. Her gereksinimin benzersiz ID
 | REQ-WAF-016 | Global kural istisnasında etki uyarısı | P06 | waf | REQ-WAF-007 | VERIFIED | Host/path/arg boşsa uyarı + confirm | UI |
 | REQ-WAF-017 | ModSec global ayarlar (audit/debug/body) | P04 | waf | REQ-WAF-012 | VERIFIED | Allowlist alanlar overlay’e yazılır; ham conf yok | Unit + apply |
 | REQ-WAF-018 | Özel ModSec kuralları (global/host) | P04 | waf | REQ-WAF-017, REQ-CFG-008 | VERIFIED | Yalnızca SecRule/SecAction/SecMarker/Remove*; Include yasak | Unit + apply |
+| REQ-WAF-019 | WAF IP/CIDR allowlist | P06 | waf | REQ-WAF-001, REQ-PROXY-019 | IMPLEMENTED | Allowlist IP → `ctl:ruleEngine=Off`; IDS deny’den bağımsız | Unit + API + UI |
 
-**Teknik not (WAF):** Resmi `nginx` paketinde ModSecurity yoktur; özel imaj veya `ngx_http_modsecurity_module` gerekir. CRS SQLi/XSS/path/protocol kuralları CRS paketinden gelir (920–944). Aktif body inceleme: `SecRequestBodyAccess On`. CRS sürüm takibi imaj pin + `crs-version.txt`; in-app CRS upgrade yok (imaj rebuild). Anomaly eşiği CRS `tx.inbound_anomaly_score_threshold` ile yönetilir.
+**Teknik not (WAF):** Resmi `nginx` paketinde ModSecurity yoktur; özel imaj veya `ngx_http_modsecurity_module` gerekir. CRS SQLi/XSS/path/protocol kuralları CRS paketinden gelir (920–944). Aktif body inceleme: `SecRequestBodyAccess On`. CRS sürüm takibi imaj pin + `crs-version.txt`; in-app CRS upgrade yok (imaj rebuild). Anomaly eşiği CRS `tx.inbound_anomaly_score_threshold` ile yönetilir. WAF IP allowlist (`REQ-WAF-019`) ModSecurity’yi atlar; CrowdSec/nginx deny için IDS allowlist (`REQ-IDS-006`) ayrıdır. Gerçek istemci IP için trusted proxies gerekir.
 
 ---
 
@@ -341,8 +342,8 @@ Bu belge proje kapsamının **tek kaynağıdır**. Her gereksinimin benzersiz ID
 | P03 LB | 14 | `plans/PHASE_03_LOAD_BALANCER.md` |
 | P04 WAF | 15 | `plans/PHASE_04_WAF.md` |
 | P05 IDS | 14 | `plans/PHASE_05_IDS_IPS.md` |
-| P06 Production | 27 | `plans/PHASE_06_PRODUCTION.md` |
-| **Toplam** | **146** | örtüşmesiz birincil sahiplik |
+| P06 Production | 28 | `plans/PHASE_06_PRODUCTION.md` |
+| **Toplam** | **148** | örtüşmesiz birincil sahiplik |
 
 Detaylı ID listeleri her `PHASE_*.md` içinde tek tek yazılır. `REQ-QA-009` her aşamada doğrulanır.
 

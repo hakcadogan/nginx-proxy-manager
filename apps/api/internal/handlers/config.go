@@ -88,6 +88,9 @@ func (h *ConfigHandler) renderDesired(ctx context.Context) (string, string, erro
 	if err := WriteUAAllowlistFile(h.Cfg.ModsecDir, wafIn.UAAllowlist); err != nil {
 		return "", "", fmt.Errorf("write ua allowlist: %w", err)
 	}
+	if err := WriteIPAllowlistFile(h.Cfg.ModsecDir, wafIn.IPAllowlist); err != nil {
+		return "", "", fmt.Errorf("write waf ip allowlist: %w", err)
+	}
 	ips, err := h.Store.ListIPPolicies(ctx, "")
 	if err != nil {
 		return "", "", err
@@ -141,6 +144,7 @@ func (h *ConfigHandler) buildWAFInput(ctx context.Context) (*nginxcfg.WAFRenderI
 		domains[ho.ID.String()] = ho.PrimaryDomain
 	}
 	uaRaw, _ := h.Store.GetSetting(ctx, settingUAAllowlist)
+	ipRaw, _ := h.Store.GetSetting(ctx, settingIPAllowlist)
 	modsec := nginxcfg.DefaultModSecGlobalSettings()
 	if raw, _ := h.Store.GetSetting(ctx, settingModSecGlobal); raw != "" {
 		_ = json.Unmarshal([]byte(raw), &modsec)
@@ -161,6 +165,7 @@ func (h *ConfigHandler) buildWAFInput(ctx context.Context) (*nginxcfg.WAFRenderI
 	return &nginxcfg.WAFRenderInput{
 		Global: global, HostPolicy: hostPol, Exceptions: ex, HostDomains: domains,
 		UAAllowlist:    parseUAAllowlistSetting(uaRaw),
+		IPAllowlist:    parseIPAllowlistSetting(ipRaw),
 		ModSecSettings: modsec,
 		CustomRules:    custom,
 		DisabledRules:  disabled,

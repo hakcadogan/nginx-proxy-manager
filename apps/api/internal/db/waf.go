@@ -160,6 +160,30 @@ func (s *Store) CreateWAFException(ctx context.Context, e models.WAFException) (
 	return e, err
 }
 
+func (s *Store) GetWAFException(ctx context.Context, id uuid.UUID) (models.WAFException, error) {
+	var e models.WAFException
+	err := s.Pool.QueryRow(ctx, `SELECT `+wafExceptionCols+` FROM waf_exceptions WHERE id=$1`, id).
+		Scan(&e.ID, &e.PolicyID, &e.HostID, &e.RuleID, &e.PathPrefix, &e.Argument, &e.Reason, &e.Enabled, &e.CreatedBy, &e.CreatedAt, &e.UpdatedAt)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return e, ErrNotFound
+	}
+	return e, err
+}
+
+func (s *Store) UpdateWAFException(ctx context.Context, e models.WAFException) (models.WAFException, error) {
+	err := s.Pool.QueryRow(ctx, `
+		UPDATE waf_exceptions SET
+			host_id=$2, rule_id=$3, path_prefix=$4, argument=$5, reason=$6, enabled=$7, updated_at=now()
+		WHERE id=$1
+		RETURNING `+wafExceptionCols,
+		e.ID, e.HostID, e.RuleID, e.PathPrefix, e.Argument, e.Reason, e.Enabled,
+	).Scan(&e.ID, &e.PolicyID, &e.HostID, &e.RuleID, &e.PathPrefix, &e.Argument, &e.Reason, &e.Enabled, &e.CreatedBy, &e.CreatedAt, &e.UpdatedAt)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return e, ErrNotFound
+	}
+	return e, err
+}
+
 func (s *Store) DeleteWAFException(ctx context.Context, id uuid.UUID) error {
 	tag, err := s.Pool.Exec(ctx, `DELETE FROM waf_exceptions WHERE id=$1`, id)
 	if err != nil {

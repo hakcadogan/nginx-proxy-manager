@@ -26,6 +26,7 @@ type WAFHandler struct {
 
 const (
 	settingUAAllowlist      = "waf_ua_allowlist"
+	settingIPAllowlist      = "waf_ip_allowlist"
 	settingModSecGlobal     = "waf_modsec_settings"
 	settingCustomRules      = "waf_custom_rules"
 	settingDisabledCRSRules = "waf_disabled_crs_rules"
@@ -90,11 +91,8 @@ func (h *WAFHandler) PatchPolicy(w http.ResponseWriter, r *http.Request) {
 	if patch.OutboundAnomalyScoreThreshold == 0 {
 		patch.OutboundAnomalyScoreThreshold = existing.OutboundAnomalyScoreThreshold
 	}
-	// Preserve enabled unless explicitly sent — DecodeJSON zeros bool; use existing when mode alone patched.
-	// Callers should send enabled; default keep existing when engine_mode unchanged path from UI always sends it.
-	if !patch.Enabled && existing.Enabled && patch.EngineMode == existing.EngineMode && patch.ParanoiaLevel == existing.ParanoiaLevel {
-		// ambiguous; prefer existing.Enabled when only thresholds change — UI always sends enabled.
-	}
+	// Keep enabled in sync with engine_mode (Off ⇒ disabled); avoids dual toggles in UI.
+	patch.Enabled = patch.EngineMode != "Off"
 	if err := nginxcfg.ValidateWAFPolicy(patch); err != nil {
 		WriteError(w, http.StatusBadRequest, "validation_failed", err.Error())
 		return
@@ -133,7 +131,7 @@ func (h *WAFHandler) UpsertHostPolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	p := models.WAFPolicy{
-		Enabled: body.Enabled, EngineMode: body.EngineMode, ParanoiaLevel: body.ParanoiaLevel,
+		EngineMode: body.EngineMode, ParanoiaLevel: body.ParanoiaLevel,
 		InboundAnomalyScoreThreshold: body.InboundAnomalyScoreThreshold,
 		OutboundAnomalyScoreThreshold: body.OutboundAnomalyScoreThreshold,
 		AuditRelevantOnly: true,
@@ -141,6 +139,8 @@ func (h *WAFHandler) UpsertHostPolicy(w http.ResponseWriter, r *http.Request) {
 	if p.EngineMode == "" {
 		p.EngineMode = "DetectionOnly"
 	}
+	// enabled mirrors engine_mode — Off ⇒ disabled (UI no longer exposes a separate toggle).
+	p.Enabled = p.EngineMode != "Off"
 	if p.ParanoiaLevel == 0 {
 		p.ParanoiaLevel = 1
 	}
@@ -223,6 +223,92 @@ func (h *WAFHandler) CreateException(w http.ResponseWriter, r *http.Request) {
 		h.ApplyHook(r)
 	}
 	WriteJSON(w, http.StatusCreated, created)
+}
+
+func (h *WAFHandler) UpdateException(w http.ResponseWriter, r *http.Request) {
+	id, err := uuid.Parse(r.PathValue("id"))
+	if err != nil {
+		WriteError(w, http.StatusBadRequest, "validation_failed", "invalid id")
+		return
+	}
+	existing, err := h.Store.GetWAFException(r.Context(), id)
+	if errors.Is(err, db.ErrNotFound) {
+		WriteError(w, http.StatusNotFound, "not_found", "exception not found")
+		return
+	} else if err != nil {
+		WriteError(w, http.StatusInternalServerError, "internal", "lookup failed")
+		return
+	}
+	var body struct {
+		HostID     json.RawMessage `json:"host_id"`
+		RuleID     string          `json:"rule_id"`
+		PathPrefix *string         `json:"path_prefix"`
+		Argument   *string         `json:"argument"`
+		Reason     string          `json:"reason"`
+		Enabled    *bool           `json:"enabled"`
+	}
+	if err := DecodeJSON(r, &body); err != nil {
+		WriteError(w, http.StatusBadRequest, "validation_failed", "invalid json")
+		return
+	}
+	updated := existing
+	if strings.TrimSpace(body.RuleID) != "" {
+		updated.RuleID = strings.TrimSpace(body.RuleID)
+	}
+	if body.Reason != "" {
+		updated.Reason = body.Reason
+	}
+	if body.PathPrefix != nil {
+		updated.PathPrefix = *body.PathPrefix
+	}
+	if body.Argument != nil {
+		updated.Argument = *body.Argument
+	}
+	if body.Enabled != nil {
+		updated.Enabled = *body.Enabled
+	}
+	if len(body.HostID) > 0 {
+		if string(body.HostID) == "null" {
+			updated.HostID = nil
+		} else {
+			var hid uuid.UUID
+			if err := json.Unmarshal(body.HostID, &hid); err != nil {
+				WriteError(w, http.StatusBadRequest, "validation_failed", "invalid host_id")
+				return
+			}
+			updated.HostID = &hid
+		}
+	}
+	if err := nginxcfg.ValidateWAFException(updated); err != nil {
+		WriteError(w, http.StatusBadRequest, "validation_failed", err.Error())
+		return
+	}
+	if updated.HostID != nil {
+		if _, err := h.Store.GetHost(r.Context(), *updated.HostID); errors.Is(err, db.ErrNotFound) {
+			WriteError(w, http.StatusNotFound, "not_found", "host not found")
+			return
+		} else if err != nil {
+			WriteError(w, http.StatusInternalServerError, "internal", "host lookup failed")
+			return
+		}
+	}
+	out, err := h.Store.UpdateWAFException(r.Context(), updated)
+	if errors.Is(err, db.ErrNotFound) {
+		WriteError(w, http.StatusNotFound, "not_found", "exception not found")
+		return
+	} else if err != nil {
+		WriteError(w, http.StatusInternalServerError, "internal", "update failed")
+		return
+	}
+	writeAudit(h.Store, r, "waf.exception_update", "waf_exception", out.ID.String(), map[string]any{
+		"rule_id": out.RuleID, "path_prefix": out.PathPrefix, "argument": out.Argument,
+		"host_id": out.HostID, "enabled": out.Enabled,
+		"global_disable": nginxcfg.ExceptionIsGlobalDisable(out),
+	})
+	if h.ApplyHook != nil {
+		h.ApplyHook(r)
+	}
+	WriteJSON(w, http.StatusOK, out)
 }
 
 func (h *WAFHandler) DeleteException(w http.ResponseWriter, r *http.Request) {
@@ -338,10 +424,19 @@ func (h *WAFHandler) SuggestException(w http.ResponseWriter, r *http.Request) {
 	if i := strings.Index(path, "?"); i >= 0 {
 		path = path[:i]
 	}
+	ruleID := ev.RuleID
+	// Hard 403 on /.env often comes from custom rules (tag nsp/block-dotenv), not only CRS.
+	// Prefer a discovered custom-rule id when present so the UI shows the live id.
+	if strings.Contains(strings.ToLower(path), ".env") {
+		custom := loadCustomRules(h.Store, r)
+		if ids := nginxcfg.CustomRuleIDsMatchingEnv(custom); len(ids) > 0 {
+			ruleID = ids[0]
+		}
+	}
 	sug := models.WAFException{
 		PolicyID:   global.ID,
 		HostID:     ev.HostID,
-		RuleID:     ev.RuleID,
+		RuleID:     ruleID,
 		PathPrefix: path,
 		Reason:     "tuning from event " + strconv.FormatInt(ev.ID, 10),
 		Enabled:    true,
@@ -447,6 +542,18 @@ func WriteUAAllowlistFile(dir string, patterns []string) error {
 	return os.Rename(tmp, path)
 }
 
+func WriteIPAllowlistFile(dir string, entries []string) error {
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		return err
+	}
+	path := filepath.Join(dir, "ip-allowlist.txt")
+	tmp := path + ".tmp"
+	if err := os.WriteFile(tmp, []byte(nginxcfg.FormatIPAllowlistFile(entries)), 0o644); err != nil {
+		return err
+	}
+	return os.Rename(tmp, path)
+}
+
 func parseUAAllowlistSetting(raw string) []string {
 	if strings.TrimSpace(raw) == "" {
 		return nil
@@ -463,6 +570,21 @@ func parseUAAllowlistSetting(raw string) []string {
 	return nginxcfg.NormalizeUAAllowlist(lines)
 }
 
+func parseIPAllowlistSetting(raw string) []string {
+	if strings.TrimSpace(raw) == "" {
+		return nil
+	}
+	var entries []string
+	if err := json.Unmarshal([]byte(raw), &entries); err == nil {
+		return nginxcfg.NormalizeIPAllowlist(entries)
+	}
+	var lines []string
+	for _, line := range strings.Split(raw, "\n") {
+		lines = append(lines, line)
+	}
+	return nginxcfg.NormalizeIPAllowlist(lines)
+}
+
 func (h *WAFHandler) GetUAAllowlist(w http.ResponseWriter, r *http.Request) {
 	raw, _ := h.Store.GetSetting(r.Context(), settingUAAllowlist)
 	patterns := parseUAAllowlistSetting(raw)
@@ -473,6 +595,18 @@ func (h *WAFHandler) GetUAAllowlist(w http.ResponseWriter, r *http.Request) {
 		"patterns": patterns,
 		"presets":  nginxcfg.DefaultUAAllowlistPresets,
 		"hint":     "Substring match against User-Agent; skips NSP bad-bot rule only (not CrowdSec IP bans).",
+	})
+}
+
+func (h *WAFHandler) GetIPAllowlist(w http.ResponseWriter, r *http.Request) {
+	raw, _ := h.Store.GetSetting(r.Context(), settingIPAllowlist)
+	entries := parseIPAllowlistSetting(raw)
+	if entries == nil {
+		entries = []string{}
+	}
+	WriteJSON(w, http.StatusOK, map[string]any{
+		"entries": entries,
+		"hint":    "REMOTE_ADDR IP/CIDR allowlist; matching clients skip ModSecurity (ctl:ruleEngine=Off). Does not bypass CrowdSec/nginx deny — use IDS allowlist for that.",
 	})
 }
 
@@ -617,6 +751,37 @@ func (h *WAFHandler) PutUAAllowlist(w http.ResponseWriter, r *http.Request) {
 		h.ApplyHook(r)
 	}
 	WriteJSON(w, http.StatusOK, map[string]any{"patterns": patterns, "saved": true})
+}
+
+func (h *WAFHandler) PutIPAllowlist(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		Entries []string `json:"entries"`
+	}
+	if err := DecodeJSON(r, &body); err != nil {
+		WriteError(w, http.StatusBadRequest, "validation_failed", "invalid json")
+		return
+	}
+	if err := nginxcfg.ValidateIPAllowlistEntries(body.Entries); err != nil {
+		WriteError(w, http.StatusBadRequest, "validation_failed", err.Error())
+		return
+	}
+	entries := nginxcfg.NormalizeIPAllowlist(body.Entries)
+	raw, _ := json.Marshal(entries)
+	if err := h.Store.SetSetting(r.Context(), settingIPAllowlist, string(raw)); err != nil {
+		WriteError(w, http.StatusInternalServerError, "internal", "save failed")
+		return
+	}
+	if err := WriteIPAllowlistFile(h.modsecDir(), entries); err != nil {
+		WriteError(w, http.StatusInternalServerError, "internal", "write ip allowlist file failed")
+		return
+	}
+	writeAudit(h.Store, r, "waf.ip_allowlist", "platform_settings", settingIPAllowlist, map[string]any{
+		"count": len(entries),
+	})
+	if h.ApplyHook != nil {
+		h.ApplyHook(r)
+	}
+	WriteJSON(w, http.StatusOK, map[string]any{"entries": entries, "saved": true})
 }
 
 func (h *WAFHandler) loadDisabledCRSRules(r *http.Request) []string {

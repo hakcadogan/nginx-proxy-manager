@@ -3,7 +3,7 @@
 **Aktif Aşama:** `PHASE_06_PRODUCTION` (**GATE_PASSED** — QA-010 sign-off bekliyor)  
 **Versiyon:** 1.8.0  
 **Tarih:** 2026-10-22  
-**Kapsam kaynağı:** `docs/REQUIREMENTS.md` (146 REQ)
+**Kapsam kaynağı:** `docs/REQUIREMENTS.md` (148 REQ)
 
 ## 1. Ürün hedefi
 

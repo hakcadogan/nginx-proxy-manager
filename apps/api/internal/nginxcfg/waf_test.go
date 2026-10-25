@@ -27,6 +27,7 @@ func TestRenderModSecOverlay(t *testing.T) {
 		HostDomains: map[string]string{hostID.String(): "behice.local"},
 		CRSVersion:  "4.20.0",
 		UAAllowlist: []string{"Googlebot", "MyMonitor/1.0"},
+		IPAllowlist: []string{"203.0.113.10", "10.0.0.0/8"},
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -38,6 +39,10 @@ func TestRenderModSecOverlay(t *testing.T) {
 		"inbound_anomaly_score_threshold=5",
 		"bad-bots.txt",
 		"ua-allowlist.txt",
+		"ip-allowlist.txt",
+		"id:1000080",
+		"ctl:ruleEngine=Off",
+		"@ipMatchFromFile",
 		"id:1000090",
 		"skipAfter:END_NSP_BAD_BOT",
 		"SecMarker END_NSP_BAD_BOT",
@@ -47,6 +52,36 @@ func TestRenderModSecOverlay(t *testing.T) {
 		`"id:1001001,phase:1,pass,nolog,chain"`,
 		`SecRule REQUEST_URI "@beginsWith /admin"`,
 		`ctl:ruleRemoveById=1100200`,
+	} {
+		if !strings.Contains(out, want) {
+			t.Fatalf("missing %q in:\n%s", want, out)
+		}
+	}
+}
+
+func TestRenderModSecOverlayEnvExceptionAlsoRemovesCustomBlock(t *testing.T) {
+	polID := uuid.New()
+	hostID := uuid.New()
+	out, err := RenderModSecOverlay(WAFRenderInput{
+		Global: models.WAFPolicy{
+			EngineMode: "On", ParanoiaLevel: 1, AuditRelevantOnly: true, Enabled: true,
+		},
+		Exceptions: []models.WAFException{{
+			ID: uuid.New(), PolicyID: polID, HostID: &hostID, RuleID: "930130",
+			PathPrefix: "/.env", Reason: "allow env path", Enabled: true,
+		}},
+		HostDomains: map[string]string{hostID.String(): "behice.local"},
+		CustomRules: CustomRulesBundle{Global: DefaultGlobalCustomRules},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{
+		`ctl:ruleRemoveById=930130`,
+		`ctl:ruleRemoveByTag=nsp/block-dotenv`,
+		`ctl:ruleRemoveById=1100500`, // discovered from custom snippet, not a hardcoded constant path
+		`@beginsWith /.env`,
+		`tag:'nsp/block-dotenv'`,
 	} {
 		if !strings.Contains(out, want) {
 			t.Fatalf("missing %q in:\n%s", want, out)
@@ -90,6 +125,33 @@ func TestValidateUAAllowlist(t *testing.T) {
 	f := FormatUAAllowlistFile([]string{" Googlebot ", "Googlebot", "bingbot"})
 	if !strings.Contains(f, "Googlebot\n") || strings.Count(f, "Googlebot") != 1 {
 		t.Fatalf("normalize failed: %s", f)
+	}
+}
+
+func TestValidateIPAllowlist(t *testing.T) {
+	if err := ValidateIPAllowlistEntries([]string{"203.0.113.10", "10.0.0.0/8"}); err != nil {
+		t.Fatal(err)
+	}
+	if err := ValidateIPAllowlistEntries([]string{"not-an-ip"}); err == nil {
+		t.Fatal("expected reject")
+	}
+	got := NormalizeIPAllowlist([]string{" 10.0.0.1 ", "10.0.0.1", "10.0.0.0/8"})
+	if len(got) != 2 {
+		t.Fatalf("normalize: %v", got)
+	}
+	f := FormatIPAllowlistFile(got)
+	if !strings.Contains(f, "10.0.0.1\n") || !strings.Contains(f, "10.0.0.0/8") {
+		t.Fatalf("file: %s", f)
+	}
+	out, err := RenderModSecOverlay(WAFRenderInput{
+		Global:      models.WAFPolicy{EngineMode: "On", ParanoiaLevel: 1, Enabled: true},
+		IPAllowlist: nil,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(out, "id:1000080") {
+		t.Fatal("empty IP allowlist must not emit rule")
 	}
 }
 

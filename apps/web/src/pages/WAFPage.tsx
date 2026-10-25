@@ -23,7 +23,22 @@ type Exception = {
   path_prefix: string;
   argument?: string;
   reason: string;
+  enabled?: boolean;
 };
+
+type HostDraft = {
+  engine_mode: string;
+  paranoia_level: number;
+};
+
+const emptyExForm = () => ({
+  rule_id: "",
+  path_prefix: "",
+  argument: "",
+  reason: "",
+  host_id: "",
+  enabled: true,
+});
 
 type Event = {
   id: number;
@@ -97,13 +112,8 @@ export default function WAFPage() {
   const [report, setReport] = useState<Report | null>(null);
   const [error, setError] = useState("");
   const [ok, setOk] = useState("");
-  const [exForm, setExForm] = useState({
-    rule_id: "",
-    path_prefix: "",
-    argument: "",
-    reason: "",
-    host_id: "",
-  });
+  const [exForm, setExForm] = useState(emptyExForm);
+  const [editingExId, setEditingExId] = useState<string | null>(null);
   const [eventQ, setEventQ] = useState("");
   const [eventRule, setEventRule] = useState("");
   const [eventDomain, setEventDomain] = useState("");
@@ -111,17 +121,14 @@ export default function WAFPage() {
   const [inboundThr, setInboundThr] = useState(5);
   const [uaText, setUaText] = useState("");
   const [uaPresets, setUaPresets] = useState<string[]>([]);
+  const [ipAllowText, setIpAllowText] = useState("");
   const [modsec, setModsec] = useState<ModSecSettings>(defaultModSec);
   const [customGlobal, setCustomGlobal] = useState("");
   const [customHostId, setCustomHostId] = useState("");
   const [customHostText, setCustomHostText] = useState("");
   const [customHosts, setCustomHosts] = useState<Record<string, string>>({});
-  const [hostPol, setHostPol] = useState({
-    host_id: "",
-    engine_mode: "DetectionOnly",
-    enabled: true,
-    paranoia_level: 1,
-  });
+  const [hostDrafts, setHostDrafts] = useState<Record<string, HostDraft>>({});
+  const [hostSaving, setHostSaving] = useState<string | null>(null);
 
   const [rules, setRules] = useState<CRSRule[]>([]);
   const [rulesTotal, setRulesTotal] = useState(0);
@@ -137,31 +144,44 @@ export default function WAFPage() {
   const global = policies.find((p) => p.scope === "global");
 
   async function load() {
-    const [p, e, ev, h, rep, ua, ms, cr] = await Promise.all([
+    const [p, e, ev, h, rep, ua, ipal, ms, cr] = await Promise.all([
       api<{ items: Policy[]; crs_version?: string }>("/api/v1/waf/policies"),
       api<{ items: Exception[] }>("/api/v1/waf/exceptions"),
       api<{ items: Event[] }>("/api/v1/waf/events?per_page=40&source=waf"),
       api<{ items: Host[] }>("/api/v1/hosts"),
       api<Report>("/api/v1/waf/report"),
       api<{ patterns: string[]; presets?: string[] }>("/api/v1/waf/ua-allowlist"),
+      api<{ entries: string[] }>("/api/v1/waf/ip-allowlist"),
       api<{ settings: ModSecSettings }>("/api/v1/waf/modsec-settings"),
       api<{ global?: string; hosts?: Record<string, string> }>("/api/v1/waf/custom-rules"),
     ]);
-    setPolicies(p.items || []);
+    const polItems = p.items || [];
+    const hostItems = h.items || [];
+    setPolicies(polItems);
     setCrs(p.crs_version || "");
     setExceptions(e.items || []);
     setEvents(ev.items || []);
-    setHosts(h.items || []);
+    setHosts(hostItems);
     setReport(rep);
     setUaText((ua.patterns || []).join("\n"));
     setUaPresets(ua.presets || []);
+    setIpAllowText((ipal.entries || []).join("\n"));
     if (ms.settings) setModsec({ ...defaultModSec(), ...ms.settings });
     setCustomGlobal(cr.global || "");
     setCustomHosts(cr.hosts || {});
-    const g = (p.items || []).find((x) => x.scope === "global");
+    const g = polItems.find((x) => x.scope === "global");
     if (g?.inbound_anomaly_score_threshold) {
       setInboundThr(g.inbound_anomaly_score_threshold);
     }
+    const drafts: Record<string, HostDraft> = {};
+    for (const host of hostItems) {
+      const hp = polItems.find((x) => x.scope === "host" && x.host_id === host.id);
+      drafts[host.id] = {
+        engine_mode: hp?.engine_mode ?? g?.engine_mode ?? "DetectionOnly",
+        paranoia_level: hp?.paranoia_level ?? g?.paranoia_level ?? 1,
+      };
+    }
+    setHostDrafts(drafts);
   }
 
   const loadRules = useCallback(async () => {
@@ -258,24 +278,40 @@ export default function WAFPage() {
     }
   }
 
-  async function saveHostPolicy(e: FormEvent) {
-    e.preventDefault();
-    if (!hostPol.host_id) return;
-    if (hostPol.engine_mode === "On") {
+  async function saveHostPolicyRow(hostId: string) {
+    const draft = hostDrafts[hostId];
+    if (!draft) return;
+    if (draft.engine_mode === "On") {
       if (!window.confirm(t("blockingConfirm"))) return;
     }
     setError("");
+    setOk("");
+    setHostSaving(hostId);
     try {
       await api("/api/v1/waf/policies/host", {
         method: "POST",
-        body: JSON.stringify(hostPol),
+        body: JSON.stringify({
+          host_id: hostId,
+          engine_mode: draft.engine_mode,
+          paranoia_level: draft.paranoia_level,
+          enabled: draft.engine_mode !== "Off",
+        }),
       });
       await applyConfig();
       setOk(t("applied"));
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "error");
+    } finally {
+      setHostSaving(null);
     }
+  }
+
+  function updateHostDraft(hostId: string, patch: Partial<HostDraft>) {
+    setHostDrafts((prev) => ({
+      ...prev,
+      [hostId]: { ...prev[hostId], ...patch },
+    }));
   }
 
   const exIsGlobal = useMemo(
@@ -283,27 +319,54 @@ export default function WAFPage() {
     [exForm],
   );
 
-  async function addException(e: FormEvent) {
+  function startEditException(x: Exception) {
+    setEditingExId(x.id);
+    setExForm({
+      rule_id: x.rule_id,
+      path_prefix: x.path_prefix || "",
+      argument: x.argument || "",
+      reason: x.reason || "",
+      host_id: x.host_id || "",
+      enabled: x.enabled !== false,
+    });
+  }
+
+  function cancelEditException() {
+    setEditingExId(null);
+    setExForm(emptyExForm());
+  }
+
+  async function saveException(e: FormEvent) {
     e.preventDefault();
     if (!global) return;
     if (exIsGlobal) {
       if (!window.confirm(t("globalExceptionConfirm"))) return;
     }
     setError("");
+    setOk("");
+    const payload = {
+      rule_id: exForm.rule_id,
+      path_prefix: exForm.path_prefix,
+      argument: exForm.argument,
+      reason: exForm.reason,
+      host_id: exForm.host_id || null,
+      enabled: exForm.enabled,
+    };
     try {
-      await api("/api/v1/waf/exceptions", {
-        method: "POST",
-        body: JSON.stringify({
-          policy_id: global.id,
-          rule_id: exForm.rule_id,
-          path_prefix: exForm.path_prefix,
-          argument: exForm.argument,
-          reason: exForm.reason,
-          host_id: exForm.host_id || null,
-        }),
-      });
-      setExForm({ rule_id: "", path_prefix: "", argument: "", reason: "", host_id: "" });
+      if (editingExId) {
+        await api(`/api/v1/waf/exceptions/${editingExId}`, {
+          method: "PATCH",
+          body: JSON.stringify(payload),
+        });
+      } else {
+        await api("/api/v1/waf/exceptions", {
+          method: "POST",
+          body: JSON.stringify({ ...payload, policy_id: global.id }),
+        });
+      }
+      cancelEditException();
       await applyConfig();
+      setOk(t("applied"));
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "error");
@@ -315,6 +378,7 @@ export default function WAFPage() {
     setError("");
     try {
       await api(`/api/v1/waf/exceptions/${x.id}`, { method: "DELETE" });
+      if (editingExId === x.id) cancelEditException();
       await applyConfig();
       await load();
     } catch (err) {
@@ -337,6 +401,27 @@ export default function WAFPage() {
       });
       await applyConfig();
       setOk(t("uaAllowlistSaved"));
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "error");
+    }
+  }
+
+  async function saveIPAllowlist(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    setOk("");
+    const entries = ipAllowText
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean);
+    try {
+      await api("/api/v1/waf/ip-allowlist", {
+        method: "PUT",
+        body: JSON.stringify({ entries }),
+      });
+      await applyConfig();
+      setOk(t("ipAllowlistSaved"));
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "error");
@@ -402,25 +487,27 @@ export default function WAFPage() {
   function applyGlobalPreset(kind: "env") {
     const preset =
       kind === "env"
-        ? `SecRule REQUEST_URI|ARGS|REQUEST_HEADERS "@rx (?i)(?:^|[/?])\\.env(?:$|[/?&#])" \\\n    "id:1100500,phase:1,deny,status:403,log,msg:'NSP block .env access'"`
+        ? `SecRule REQUEST_URI|ARGS|REQUEST_HEADERS "@rx (?i)(?:^|[/?])\\.env(?:$|[/?&#])" \\\n    "id:1100500,phase:1,deny,status:403,log,msg:'NSP block .env access',tag:'nsp/block-dotenv'"`
         : "";
     if (!preset) return;
     setCustomGlobal((prev) => {
       const cur = prev.trim();
       if (!cur) return preset;
-      if (cur.includes("id:1100500")) return cur;
+      if (cur.includes("nsp/block-dotenv") || cur.includes("id:1100500")) return cur;
       return `${cur}\n${preset}`;
     });
   }
 
   async function suggest(id: number) {
     const data = await api<{ suggestion: Exception }>(`/api/v1/waf/events/${id}/suggest-exception`);
+    setEditingExId(null);
     setExForm({
       rule_id: data.suggestion.rule_id,
       path_prefix: data.suggestion.path_prefix || "",
       argument: data.suggestion.argument || "",
       reason: data.suggestion.reason,
       host_id: data.suggestion.host_id || "",
+      enabled: true,
     });
     setTab("exceptions");
   }
@@ -496,10 +583,10 @@ export default function WAFPage() {
       {ok && <p className="ok">{ok}</p>}
 
       {tab === "policy" && (
-        <div className="grid two">
+        <div className="stack" style={{ gap: 16 }}>
           <section className="panel stack">
             <h2 className="heading-with-help">
-              {t("waf")}
+              {t("globalWafPolicy")}
               <HelpTip text={t("helpWaf")} />
             </h2>
             {String(modsec.request_body_access).toLowerCase() === "off" ? (
@@ -526,47 +613,79 @@ export default function WAFPage() {
                     <p>{t("blockingActiveBody")}</p>
                   </div>
                 )}
-                <div>
-                  <label>{t("engineMode")}</label>
-                  <div className="row" style={{ gap: 8, flexWrap: "wrap" }}>
-                    {["DetectionOnly", "On", "Off"].map((m) => (
-                      <button
-                        key={m}
-                        type="button"
-                        className={global.engine_mode === m ? undefined : "secondary"}
-                        onClick={() => void setMode(m)}
-                      >
-                        {m === "On" ? t("blockingMode") : m === "DetectionOnly" ? t("detectionMode") : m}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <label>{t("paranoia")}</label>
-                  <select value={global.paranoia_level} onChange={(e) => void setPL(Number(e.target.value))}>
-                    {[1, 2, 3, 4].map((n) => (
-                      <option key={n} value={n}>
-                        PL{n}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <form className="stack" onSubmit={(e) => void saveAnomaly(e)}>
-                  <div>
-                    <label>{t("anomalyThreshold")}</label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={10000}
-                      value={inboundThr}
-                      onChange={(e) => setInboundThr(Number(e.target.value))}
-                    />
-                    <p className="field-hint">{t("anomalyHint")}</p>
-                  </div>
-                  <button type="submit" className="secondary">
-                    {t("saveAnomaly")}
-                  </button>
-                </form>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>{t("setting")}</th>
+                      <th>{t("value")}</th>
+                      <th>{t("actions")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{t("engineMode")}</td>
+                      <td>
+                        <code>{global.engine_mode}</code>
+                      </td>
+                      <td>
+                        <div className="row" style={{ gap: 8, flexWrap: "wrap" }}>
+                          {["DetectionOnly", "On", "Off"].map((m) => (
+                            <button
+                              key={m}
+                              type="button"
+                              className={global.engine_mode === m ? undefined : "secondary"}
+                              onClick={() => void setMode(m)}
+                            >
+                              {m === "On" ? t("blockingMode") : m === "DetectionOnly" ? t("detectionMode") : m}
+                            </button>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>{t("paranoia")}</td>
+                      <td>
+                        <code>PL{global.paranoia_level}</code>
+                      </td>
+                      <td>
+                        <select
+                          value={global.paranoia_level}
+                          onChange={(e) => void setPL(Number(e.target.value))}
+                        >
+                          {[1, 2, 3, 4].map((n) => (
+                            <option key={n} value={n}>
+                              PL{n}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>{t("anomalyThreshold")}</td>
+                      <td>
+                        <code>{inboundThr}</code>
+                      </td>
+                      <td>
+                        <form className="row" style={{ gap: 8, alignItems: "center" }} onSubmit={(e) => void saveAnomaly(e)}>
+                          <input
+                            type="number"
+                            min={1}
+                            max={10000}
+                            value={inboundThr}
+                            onChange={(e) => setInboundThr(Number(e.target.value))}
+                            style={{ width: 100 }}
+                          />
+                          <button type="submit" className="secondary">
+                            {t("saveAnomaly")}
+                          </button>
+                        </form>
+                        <p className="field-hint" style={{ marginBottom: 0 }}>
+                          {t("anomalyHint")}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </>
             )}
           </section>
@@ -576,37 +695,83 @@ export default function WAFPage() {
               {t("hostWafPolicy")}
               <HelpTip text={t("helpHostWaf")} />
             </h2>
-            <form className="stack" onSubmit={(e) => void saveHostPolicy(e)}>
-              <select
-                value={hostPol.host_id}
-                onChange={(e) => setHostPol({ ...hostPol, host_id: e.target.value })}
-                required
-              >
-                <option value="">— {t("selectHost")} —</option>
-                {hosts.map((h) => (
-                  <option key={h.id} value={h.id}>
-                    {h.primary_domain}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={hostPol.engine_mode}
-                onChange={(e) => setHostPol({ ...hostPol, engine_mode: e.target.value })}
-              >
-                <option value="DetectionOnly">DetectionOnly</option>
-                <option value="On">Blocking (On)</option>
-                <option value="Off">Off</option>
-              </select>
-              <label className="check-row">
-                <input
-                  type="checkbox"
-                  checked={hostPol.enabled}
-                  onChange={(e) => setHostPol({ ...hostPol, enabled: e.target.checked })}
-                />
-                {t("enabled")}
-              </label>
-              <button type="submit">{t("saveHostPolicy")}</button>
-            </form>
+            <p className="muted" style={{ marginTop: 0 }}>
+              {t("hostWafPolicyHint")}
+            </p>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>{t("host")}</th>
+                  <th>{t("policySource")}</th>
+                  <th>{t("engineMode")}</th>
+                  <th>{t("paranoia")}</th>
+                  <th>{t("actions")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {hosts.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="muted">
+                      {t("noHosts")}
+                    </td>
+                  </tr>
+                )}
+                {hosts.map((h) => {
+                  const own = policies.find((p) => p.scope === "host" && p.host_id === h.id);
+                  const draft = hostDrafts[h.id] || {
+                    engine_mode: "DetectionOnly",
+                    paranoia_level: 1,
+                  };
+                  return (
+                    <tr key={h.id}>
+                      <td>
+                        <code>{h.primary_domain}</code>
+                      </td>
+                      <td>
+                        {own ? (
+                          <span className="badge">{t("hostOverride")}</span>
+                        ) : (
+                          <span className="muted">{t("inheritsGlobal")}</span>
+                        )}
+                      </td>
+                      <td>
+                        <select
+                          value={draft.engine_mode}
+                          onChange={(e) => updateHostDraft(h.id, { engine_mode: e.target.value })}
+                        >
+                          <option value="DetectionOnly">DetectionOnly</option>
+                          <option value="On">Blocking (On)</option>
+                          <option value="Off">Off</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select
+                          value={draft.paranoia_level}
+                          onChange={(e) =>
+                            updateHostDraft(h.id, { paranoia_level: Number(e.target.value) })
+                          }
+                        >
+                          {[1, 2, 3, 4].map((n) => (
+                            <option key={n} value={n}>
+                              PL{n}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          disabled={hostSaving === h.id}
+                          onClick={() => void saveHostPolicyRow(h.id)}
+                        >
+                          {hostSaving === h.id ? "…" : t("saveHostPolicy")}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </section>
         </div>
       )}
@@ -776,12 +941,13 @@ export default function WAFPage() {
               <tr>
                 <th>Rule</th>
                 <th>{t("scope")}</th>
+                <th>{t("enabled")}</th>
                 <th>{t("actions")}</th>
               </tr>
             </thead>
             <tbody>
               {exceptions.map((x) => (
-                <tr key={x.id}>
+                <tr key={x.id} className={editingExId === x.id ? "row-active" : undefined}>
                   <td>
                     <code>{x.rule_id}</code>
                     {x.argument ? (
@@ -801,16 +967,23 @@ export default function WAFPage() {
                       {x.path_prefix || "/*"}
                     </code>
                   </td>
+                  <td>{x.enabled === false ? t("no") : t("yes")}</td>
                   <td>
-                    <button type="button" className="danger" onClick={() => void removeEx(x)}>
-                      {t("delete")}
-                    </button>
+                    <div className="row" style={{ gap: 8 }}>
+                      <button type="button" className="secondary" onClick={() => startEditException(x)}>
+                        {t("edit")}
+                      </button>
+                      <button type="button" className="danger" onClick={() => void removeEx(x)}>
+                        {t("delete")}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <form className="stack" onSubmit={(e) => void addException(e)} style={{ marginTop: 12 }}>
+          <form className="stack" onSubmit={(e) => void saveException(e)} style={{ marginTop: 12 }}>
+            <h3 style={{ margin: 0 }}>{editingExId ? t("editException") : t("addException")}</h3>
             <input
               placeholder="rule id (örn. 942100)"
               value={exForm.rule_id}
@@ -841,7 +1014,24 @@ export default function WAFPage() {
               onChange={(e) => setExForm({ ...exForm, reason: e.target.value })}
               required
             />
-            <button type="submit">{t("addException")}</button>
+            {editingExId && (
+              <label className="check-row">
+                <input
+                  type="checkbox"
+                  checked={exForm.enabled}
+                  onChange={(e) => setExForm({ ...exForm, enabled: e.target.checked })}
+                />
+                {t("exceptionEnabled")}
+              </label>
+            )}
+            <div className="row" style={{ gap: 8 }}>
+              <button type="submit">{editingExId ? t("saveException") : t("addException")}</button>
+              {editingExId && (
+                <button type="button" className="secondary" onClick={cancelEditException}>
+                  {t("cancel")}
+                </button>
+              )}
+            </div>
           </form>
         </section>
       )}
@@ -938,6 +1128,24 @@ export default function WAFPage() {
             </form>
 
             <h3 className="heading-with-help">
+              {t("ipAllowlistTitle")}
+              <HelpTip text={t("helpIpAllowlist")} />
+            </h3>
+            <p className="muted" style={{ marginTop: 0 }}>
+              {t("ipAllowlistHint")}
+            </p>
+            <form className="stack" onSubmit={(e) => void saveIPAllowlist(e)}>
+              <textarea
+                rows={5}
+                value={ipAllowText}
+                onChange={(e) => setIpAllowText(e.target.value)}
+                placeholder={"203.0.113.10\n10.0.0.0/8"}
+                spellCheck={false}
+              />
+              <button type="submit">{t("saveIPAllowlist")}</button>
+            </form>
+
+            <h3 className="heading-with-help">
               {t("uaAllowlistTitle")}
               <HelpTip text={t("helpUaAllowlist")} />
             </h3>
@@ -979,7 +1187,7 @@ export default function WAFPage() {
                   value={customGlobal}
                   onChange={(e) => setCustomGlobal(e.target.value)}
                   placeholder={
-                    'SecRule REQUEST_URI|ARGS "@rx (?i)(?:^|[/])\\.env(?:$|[/?&#])" \\\n    "id:1100500,phase:1,deny,status:403,log,msg:\'NSP block .env\'"'
+                    'SecRule REQUEST_URI|ARGS "@rx (?i)(?:^|[/])\\.env(?:$|[/?&#])" \\\n    "id:1100500,phase:1,deny,status:403,log,msg:\'NSP block .env\',tag:\'nsp/block-dotenv\'"'
                   }
                   spellCheck={false}
                   style={{ fontFamily: "ui-monospace, monospace", fontSize: 13 }}
