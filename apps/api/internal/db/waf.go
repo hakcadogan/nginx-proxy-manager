@@ -200,12 +200,13 @@ func (s *Store) ListSecurityEvents(ctx context.Context, limit, offset int) ([]mo
 }
 
 type SecurityEventFilter struct {
-	Source string
-	Q      string
-	RuleID string
-	Domain string
-	Limit  int
-	Offset int
+	Source   string
+	Q        string
+	RuleID   string
+	Domain   string
+	ClientIP string
+	Limit    int
+	Offset   int
 }
 
 func (s *Store) SearchSecurityEvents(ctx context.Context, f SecurityEventFilter) ([]models.SecurityEvent, error) {
@@ -230,13 +231,16 @@ func (s *Store) SearchSecurityEvents(ctx context.Context, f SecurityEventFilter)
 	if f.Domain != "" {
 		add("LOWER(domain) LIKE $%d", "%"+strings.ToLower(f.Domain)+"%")
 	}
+	if f.ClientIP != "" {
+		add("client_ip LIKE $%d", "%"+f.ClientIP+"%")
+	}
 	if f.Q != "" {
 		q := "%" + strings.ToLower(f.Q) + "%"
-		args = append(args, q, q, q)
+		args = append(args, q, q, q, q)
 		n := len(args)
 		where = append(where, fmt.Sprintf(
-			`(LOWER(message) LIKE $%d OR LOWER(uri) LIKE $%d OR LOWER(payload_summary) LIKE $%d)`,
-			n-2, n-1, n))
+			`(LOWER(message) LIKE $%d OR LOWER(uri) LIKE $%d OR LOWER(payload_summary) LIKE $%d OR LOWER(client_ip) LIKE $%d)`,
+			n-3, n-2, n-1, n))
 	}
 	args = append(args, f.Limit, f.Offset)
 	limIdx, offIdx := len(args)-1, len(args)

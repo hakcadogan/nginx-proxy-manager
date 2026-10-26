@@ -339,12 +339,13 @@ func (h *WAFHandler) ListEvents(w http.ResponseWriter, r *http.Request) {
 	}
 	offset := (page - 1) * limit
 	items, err := h.Store.SearchSecurityEvents(r.Context(), db.SecurityEventFilter{
-		Source: r.URL.Query().Get("source"),
-		Q:      r.URL.Query().Get("q"),
-		RuleID: r.URL.Query().Get("rule_id"),
-		Domain: r.URL.Query().Get("domain"),
-		Limit:  limit,
-		Offset: offset,
+		Source:   r.URL.Query().Get("source"),
+		Q:        r.URL.Query().Get("q"),
+		RuleID:   r.URL.Query().Get("rule_id"),
+		Domain:   r.URL.Query().Get("domain"),
+		ClientIP: strings.TrimSpace(r.URL.Query().Get("client_ip")),
+		Limit:    limit,
+		Offset:   offset,
 	})
 	if err != nil {
 		WriteError(w, http.StatusInternalServerError, "internal", "list failed")

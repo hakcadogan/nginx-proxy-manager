@@ -117,6 +117,7 @@ export default function WAFPage() {
   const [eventQ, setEventQ] = useState("");
   const [eventRule, setEventRule] = useState("");
   const [eventDomain, setEventDomain] = useState("");
+  const [eventIP, setEventIP] = useState("");
   const [eventsRefreshing, setEventsRefreshing] = useState(false);
   const [inboundThr, setInboundThr] = useState(5);
   const [uaText, setUaText] = useState("");
@@ -521,6 +522,7 @@ export default function WAFPage() {
       if (eventQ.trim()) params.set("q", eventQ.trim());
       if (eventRule.trim()) params.set("rule_id", eventRule.trim());
       if (eventDomain.trim()) params.set("domain", eventDomain.trim());
+      if (eventIP.trim()) params.set("client_ip", eventIP.trim());
       const ev = await api<{ items: Event[] }>(`/api/v1/waf/events?${params}`);
       setEvents(ev.items || []);
       const rep = await api<Report>("/api/v1/waf/report");
@@ -1239,6 +1241,11 @@ export default function WAFPage() {
                 onChange={(e) => setEventQ(e.target.value)}
               />
               <input
+                placeholder={t("clientIp")}
+                value={eventIP}
+                onChange={(e) => setEventIP(e.target.value)}
+              />
+              <input
                 placeholder="rule_id"
                 value={eventRule}
                 onChange={(e) => setEventRule(e.target.value)}
@@ -1310,6 +1317,7 @@ export default function WAFPage() {
               <tr>
                 <th>Rule</th>
                 <th>{t("domain")}</th>
+                <th>{t("clientIp")}</th>
                 <th>URI</th>
                 <th>{t("actions")}</th>
                 <th style={{ width: 44, textAlign: "right" }}>
@@ -1340,7 +1348,7 @@ export default function WAFPage() {
             <tbody>
               {events.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="muted">
+                  <td colSpan={6} className="muted">
                     {t("noEvents")}
                   </td>
                 </tr>
@@ -1355,6 +1363,9 @@ export default function WAFPage() {
                     </td>
                     <td>
                       {ev.domain ? <code>{ev.domain}</code> : <span className="muted">—</span>}
+                    </td>
+                    <td>
+                      {ev.client_ip ? <code>{ev.client_ip}</code> : <span className="muted">—</span>}
                     </td>
                     <td>
                       <code>

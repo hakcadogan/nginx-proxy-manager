@@ -97,7 +97,7 @@ Bu belge uygulama öncesi **sözleşme iskeletidir**. Kesin şemalar OpenAPI’d
 | GET/PUT | `/waf/ip-allowlist` | P06 | REQ-WAF-019 | `{ entries: string[] }` — IP/CIDR; ModSec `ruleEngine=Off` |
 | GET/PUT | `/waf/modsec-settings` | P04 | REQ-WAF-017 | allowlist audit/debug/body ayarları |
 | GET/PUT | `/waf/custom-rules` | P04 | REQ-WAF-018 | `{ global, hosts: { host_id: text } }` |
-| GET | `/waf/events` | P04 | REQ-WAF-009 |
+| GET | `/waf/events` | P04 | REQ-WAF-009 | `q` (msg/uri/payload/ip), `client_ip`, `rule_id`, `domain`, `source` |
 | GET | `/waf/events/{id}` | P04 | REQ-WAF-010 |
 
 ## IDS / IP policies
